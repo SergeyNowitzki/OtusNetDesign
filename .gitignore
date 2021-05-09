@@ -1,0 +1,20 @@
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Vim files. #
+# #######################
+*.un~
+*.swp
+
+# Python
+# #######################
+__pycache__/
+*.py[cod]
+*.pyc
+.cache
+
