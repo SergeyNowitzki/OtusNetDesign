@@ -22,5 +22,6 @@
     <td align="left">Loopbck interfaces</td>
   </tr>
 </table><br />
-<p>Each first interface on a liaf switch is connected to the first spine and the second - to the second leaf.<br />
+<p align="left">Each first interface on a leaf switch is connected to the first spine, the second - to the second leaf and so on.<br />
+<br />
 <img width="729" alt="Clos_Scheme" src="https://user-images.githubusercontent.com/39993377/117587840-8bf79980-b128-11eb-96c9-f2199b558861.png">
