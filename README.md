@@ -1,13 +1,13 @@
 # OtusNetDesign
 <h3>Underlay IP address Block:</h3>
 <table>
-  <tr>
+  <tr align="center">
     <th>IP Block</th>
     <th>Description</th>
   </tr>
   <tr>
-    <td>172.17.11.x/24</td>
-    <td>Spine1 IP block</td>
+    <td align="left">172.17.11.x/24</td>
+    <td align="left">Spine1 IP block</td>
   </tr>
 172.17.12.12.x/24 - Spine2 IP block
 172.17.21.x/24 - Spine3 IP block
