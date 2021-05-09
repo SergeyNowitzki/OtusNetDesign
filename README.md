@@ -21,5 +21,5 @@
     <td align="left">172.17.255.x/24</td>
     <td align="left">Loopbck interfaces</td>
   </tr>
-</table>
+</table><br>
 <img width="729" alt="Clos_Scheme" src="https://user-images.githubusercontent.com/39993377/117587840-8bf79980-b128-11eb-96c9-f2199b558861.png">
