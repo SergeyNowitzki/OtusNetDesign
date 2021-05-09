@@ -2,13 +2,13 @@
 <h3>Underlay IP address Block:</h3>
 <table>
   <tr>
-    <th>IP Block</th><th>Description</th>
-  </tr>
-  <tr>
     <th>IP Block</th>
     <th>Description</th>
   </tr>
-172.17.11.x/24 - Spine1 IP block
+  <tr>
+    <td>172.17.11.x/24</td>
+    <td>Spine1 IP block</td>
+  </tr>
 172.17.12.12.x/24 - Spine2 IP block
 172.17.21.x/24 - Spine3 IP block
 172.17.255.x/24 - Loopbck interfaces
