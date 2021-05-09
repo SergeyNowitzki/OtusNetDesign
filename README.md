@@ -2,7 +2,7 @@
 <h3>Underlay IP address Block:</h3>
 <table>
   <tr>
-    <th>IP Block</th> <th>Description</th>
+    <th>IP Block</th><th>Description</th>
   </tr>
   <tr>
     <th>IP Block</th>
