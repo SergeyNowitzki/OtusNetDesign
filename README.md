@@ -25,8 +25,10 @@
 <p align="left">Each first interface on a leaf switch is connected to the first spine, the second - to the second leaf and so on.<br />
 <p align="left">Network block is devided into subnets with /31 prefix for peer to peer connection between switches.<br />
 <p align="left">Odd addresses are allocated to leafs switches and even to spines.<br />
-<p align="left">E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.<br />
-<p align="left">     link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.<br />
+<ul>
+<li align="left">E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.</li>
+<li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
+</ul>
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.<br />
 <br />
 <img width="729" alt="Clos_Scheme" src="https://user-images.githubusercontent.com/39993377/117587840-8bf79980-b128-11eb-96c9-f2199b558861.png">
