@@ -31,6 +31,33 @@
 </ul>
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.<br />
 <br />
+<table>
+  <tr align="center">
+    <th></th>
+    <th>SPINE_1-1</th>
+    <th>SPINE_1-2</th>
+    <th>SPINE_1-3</th>
+  </tr>
+  <tr>
+    <td align="left">LEAF_1-1</td>
+    <td align="left"></td>
+    <td align="left"></td>
+  </tr>
+    <td align="left">LEAF_1-2</td>
+    <td align="left"></td>
+    <td align="left"></td>
+  </tr>
+    <td align="left">LEAF_1-3</td>
+    <td align="left"></td>
+    <td align="left"></td>
+  </tr>
+   <tr>
+    <td align="left">LEAF_2-1</td>
+    <td align="left"></td>
+    <td align="left"></td>
+  </tr>
+</table>
+<br />
 <p align="left">Incterconnections between Leaf_1-1 and Leaf_1-2 is used to create redundancy (VPC):<br />
 <ul>
 <li align="left">E1/3: keepalive link.</li>
