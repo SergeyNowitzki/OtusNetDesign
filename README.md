@@ -31,4 +31,11 @@
 </ul>
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.<br />
 <br />
+<p align="left">Incterconnections between Leaf_1-1 and Leaf_1-2 is used to create redundancy (VPC):<br />
+<ul>
+<li align="left">E1/3: keepalive link.</li>
+<li align="left">E1/4: Member of Portchanell 45 as a peer link.</li>
+<li align="left">E1/5: member of Portchanell 45 as a peer link.</li>
+</ul>
+<br />
 <img width="729" alt="Clos_Scheme" src="https://user-images.githubusercontent.com/39993377/117587840-8bf79980-b128-11eb-96c9-f2199b558861.png">
