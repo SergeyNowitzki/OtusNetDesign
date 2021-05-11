@@ -29,7 +29,7 @@
 <li align="left">E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.</li>
 <li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
 </ul>
-<p align="left">Full IP address allocation for the scheme is displayed in the table below.<br />
+<p align="left">Full IP address allocation for the scheme is displayed in the table below.
 <br />
 <table>
   <tr align="center">
@@ -42,12 +42,15 @@
     <td align="left">LEAF_1-1</td>
     <td align="left"></td>
     <td align="left"></td>
+    <td align="left"></td>
   </tr>
     <td align="left">LEAF_1-2</td>
     <td align="left"></td>
     <td align="left"></td>
+    <td align="left"></td>
   </tr>
     <td align="left">LEAF_1-3</td>
+    <td align="left"></td>
     <td align="left"></td>
     <td align="left"></td>
   </tr>
