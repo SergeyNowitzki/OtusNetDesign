@@ -66,8 +66,8 @@
 <br />
 <table>
   <tr align="center">
-    <td>SPINE_1-1</td>
-    <td>SPINE_1-2</td>
+    <th>Device Name</th>
+    <th>IP Address</th>
   </tr>
   <tr>
     <th align="left">172.17.255.11/32</th>
