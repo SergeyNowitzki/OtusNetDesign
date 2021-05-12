@@ -50,9 +50,9 @@
     <td align="center"> - </td>
   </tr>
     <td align="left">LEAF_1-3</td>
-    <td align="left"></td>
-    <td align="left"></td>
-    <td align="left"></td>
+    <td align="left">172.17.11.4/31</td>
+    <td align="left">172.17.12.4/31</td>
+    <td align="center"> - </td>
   </tr>
    <tr>
     <td align="left">LEAF_2-1</td>
