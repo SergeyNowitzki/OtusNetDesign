@@ -33,7 +33,7 @@
 <br />
 <table>
   <tr align="center">
-    <th></th>
+    <th>&nbsp;</th>
     <th>SPINE_1-1</th>
     <th>SPINE_1-2</th>
     <th>SPINE_1-3</th>
@@ -68,11 +68,6 @@
   <tr align="center">
     <td>SPINE_1-1</td>
     <td>SPINE_1-2</td>
-    <td>SPINE_1-3</td>
-    <td>LEAF_1-1</td>
-    <td>LEAF_1-2</td>
-    <td>LEAF_1-3</td>
-    <td>LEAF_2-1</td>
   </tr>
   <tr>
     <th align="left">172.17.255.11/32</th>
