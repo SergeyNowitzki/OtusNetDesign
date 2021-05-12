@@ -62,6 +62,38 @@
   </tr>
 </table>
 <br />
+<p align="left">IP address on loppback interfaces:.
+<br />
+<table>
+  <tr align="center">
+    <th></th>
+    <th>SPINE_1-1</th>
+    <th>SPINE_1-2</th>
+    <th>SPINE_1-3</th>
+  </tr>
+  <tr>
+    <td align="left">LEAF_1-1</td>
+    <td align="left">172.17.11.0/31</td>
+    <td align="left">172.17.12.0/31</td>
+    <td align="center"> - </td>
+  </tr>
+    <td align="left">LEAF_1-2</td>
+    <td align="left">172.17.11.2/31</td>
+    <td align="left">172.17.12.2/31</td>
+    <td align="center"> - </td>
+  </tr>
+    <td align="left">LEAF_1-3</td>
+    <td align="left">172.17.11.4/31</td>
+    <td align="left">172.17.12.4/31</td>
+    <td align="center"> - </td>
+  </tr>
+   <tr>
+    <td align="left">LEAF_2-1</td>
+    <td align="center"> - </td>
+    <td align="center"> - </td>
+    <td align="left">172.17.21.0/31</td>
+  </tr>
+</table>
 <p align="left">Incterconnections between Leaf_1-1 and Leaf_1-2 is used to create redundancy (VPC):<br />
 <ul>
 <li align="left">E1/3: keepalive link.</li>
