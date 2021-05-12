@@ -1,5 +1,6 @@
 # OtusNetDesign
-<h3>Underlay IP address Block:</h3>
+<h3> Network Topology and IP Addresses Allocation </h3>
+<p align="left"> Underlay IP address Block: </p>
 <table>
   <tr align="center">
     <th>IP Block</th>
@@ -62,7 +63,7 @@
   </tr>
 </table>
 <br />
-<p align="left">IP address on loppback interfaces:.
+<p align="left">IP address on loppback interfaces:
 <br />
 <table>
   <tr align="left">
