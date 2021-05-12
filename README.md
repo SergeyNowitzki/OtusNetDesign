@@ -42,7 +42,7 @@
     <td align="left">LEAF_1-1</td>
     <td align="left">172.17.11.0/31</td>
     <td align="left">172.17.12.0/31</td>
-    <td align="left"> - </td>
+    <td align="center"> - </td>
   </tr>
     <td align="left">LEAF_1-2</td>
     <td align="left"></td>
