@@ -65,12 +65,37 @@
 <p align="left">IP address on loppback interfaces:.
 <br />
 <table>
-  <tr align="center">
+  <tr align="left">
     <th>Device Name</th>
     <th>IP Address</th>
   </tr>
   <tr>
+    <th align="left">LEAF_1-1</th>
     <th align="left">172.17.255.11/32</th>
+  </tr>
+    <tr>
+    <th align="left">LEAF_1-2</th>
+    <th align="left">172.17.255.12/32</th>
+  </tr>
+  <tr>
+    <th align="left">LEAF_1-3</th>
+    <th align="left">172.17.255.13/32</th>
+  </tr>
+  <tr>
+    <th align="left">LEAF_2-1</th>
+    <th align="left">172.17.255.21/32</th>
+  </tr>
+  <tr>
+    <th align="left">SPINE_1-1</th>
+    <th align="left">172.17.255.111/32</th>
+  </tr>
+  <tr>
+    <th align="left">SPINE_1-2</th>
+    <th align="left">172.17.255.112/32</th>
+  </tr>
+  <tr>
+    <th align="left">SPINE_2-1</th>
+    <th align="left">172.17.255.121/32</th>
   </tr>
 </table>
 <p align="left">Incterconnections between Leaf_1-1 and Leaf_1-2 is used to create redundancy (VPC):<br />
