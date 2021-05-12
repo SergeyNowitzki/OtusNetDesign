@@ -1,5 +1,6 @@
 # OtusNetDesign
 <h3> Network Topology and IP Addresses Allocation </h3>
+<img width="735" alt="Screen Shot 2021-05-11 at 11 48 52" src="https://user-images.githubusercontent.com/39993377/117787227-ee4aba00-b24e-11eb-9f17-d102ffd2a4ce.png">
 <p align="left"> Underlay IP address Block: </p>
 <table>
   <tr align="center">
@@ -106,4 +107,3 @@
 <li align="left">E1/5: member of Portchanell 45 as a peer link.</li>
 </ul>
 <br />
-<img width="735" alt="Screen Shot 2021-05-11 at 11 48 52" src="https://user-images.githubusercontent.com/39993377/117787227-ee4aba00-b24e-11eb-9f17-d102ffd2a4ce.png">
