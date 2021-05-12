@@ -66,16 +66,16 @@
 <br />
 <table>
   <tr align="center">
-    <th>SPINE_1-1</th>
-    <th>SPINE_1-2</th>
-    <th>SPINE_1-3</th>
-    <th>LEAF_1-1</th>
-    <th>LEAF_1-2</th>
-    <th>LEAF_1-3</th>
-    <th>LEAF_2-1</th>
+    <td>SPINE_1-1</th>
+    <td>SPINE_1-2</th>
+    <td>SPINE_1-3</th>
+    <td>LEAF_1-1</th>
+    <td>LEAF_1-2</th>
+    <td>LEAF_1-3</th>
+    <td>LEAF_2-1</th>
   </tr>
   <tr>
-    <td align="left">172.17.255.11/32</td>
+    <th align="left">172.17.255.11/32</td>
   </tr>
 </table>
 <p align="left">Incterconnections between Leaf_1-1 and Leaf_1-2 is used to create redundancy (VPC):<br />
