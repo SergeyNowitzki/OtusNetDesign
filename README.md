@@ -107,3 +107,16 @@
 <li align="left">E1/5: member of Portchanell 45 as a peer link.</li>
 </ul>
 <br />
+<h3>Underlay. OSPF</h3>
+<p>To achive full reachability between all network devices we are going to use IGP protocol OSPF.</p>
+<p>We will follow the best practice reccomendations to be on the safe site:<p/>
+<ul>
+<li align="left">p-2-p connection between Spine and Leaf switches with /31 mask</li>
+<li align="left">passive interface on leaf switches</li>
+<li align="left">use default timers for routing protocol messages</li>
+<li align="left">use BFD protocol to detect failurs between switches</li>
+<li align="left">launch OSPF process on all switches within backbone area (area 0)</li>
+<li align="left">use point-to-point network type on interfaces</li>
+<li align="left">avoide usnig redistribution in a OSPF process</li>
+<li align="left">use authentication in OSPF</li>
+</ul>
