@@ -38,7 +38,7 @@
     <th>&nbsp;</th>
     <th>SPINE_1-1</th>
     <th>SPINE_1-2</th>
-    <th>SPINE_1-3</th>
+    <th>SPINE_2-1</th>
   </tr>
   <tr>
     <td align="left">LEAF_1-1</td>
