@@ -1,5 +1,5 @@
 # OtusNetDesign
-<h3> Network Topology and IP Addresses Allocation </h3>
+## Network Topology and IP Addresses Allocation
 <img width="735" alt="Screen Shot 2021-05-11 at 11 48 52" src="https://user-images.githubusercontent.com/39993377/117787227-ee4aba00-b24e-11eb-9f17-d102ffd2a4ce.png">
 <p align="left"> Underlay IP address Block: </p>
 <table>
@@ -107,7 +107,7 @@
 <li align="left">E1/5: member of Portchanell 45 as a peer link.</li>
 </ul>
 <br />
-<h3>Underlay. OSPF</h3>
+##Underlay. OSPF
 <p>To achive full reachability between all network devices we are going to use IGP protocol OSPF.</p>
 <p>We will follow the best practice reccomendations to be on the safe site:<p/>
 <ul>
