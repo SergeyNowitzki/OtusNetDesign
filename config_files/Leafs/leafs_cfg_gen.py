@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+#the script has to be executed from a Lafs directory
+
 from jinja2 import Environment, FileSystemLoader
 import yaml
 
