@@ -107,6 +107,7 @@
 <li align="left">E1/5: member of Portchanell 45 as a peer link.</li>
 </ul>
 <br />
+---
 ## Underlay. OSPF
 <p>To achive full reachability between all network devices we are going to use IGP protocol OSPF.</p>
 <p>We will follow the best practice reccomendations to be on the safe site:<p/>
