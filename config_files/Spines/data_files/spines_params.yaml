@@ -45,15 +45,3 @@
   loopback:
     id: 0
     ip: 172.17.255.13/32
-
-- id: 4
-  row: 2
-  name: LEAF_2-1
-  interfaces:
-    - local_intf: 1/1
-      ip: 172.17.21.1/31
-      spine_id: SPINE_2-1
-      spine_itf: 1/1
-  loopback:
-    id: 0
-    ip: 172.17.255.21/32
