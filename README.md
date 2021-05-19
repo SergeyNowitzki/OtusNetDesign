@@ -124,3 +124,11 @@
 <li align="left">avoide usnig redistribution in a OSPF process</li>
 <li align="left">use authentication in OSPF</li>
 </ul>
+<p>In this scenario R1 device is used as L2 switch to provide broadcast domain for Spines connection.</p>
+<p>All switches will be part of OSPF Area0. A network type between Spines and Leafs is Point-to-Point and between Spines - multiaccess.</p>
+<p>Role Spine devices in OSPF:</p>
+<ul>
+<li align="left">SPINE_1-1 is DR</li>
+<li align="left">SPINE_1-2 is BDR</li>
+<li align="left">SPINE_2-1 is DR/OTHER</li>
+</ul>
