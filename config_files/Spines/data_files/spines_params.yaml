@@ -18,7 +18,7 @@
       remote_intf: 1/1
       net_type: point-2-point
     - local_intf: 1/7
-      ip: 172.17.255.1/31
+      ip: 172.17.255.1/24
       remote_id: R1
       remote_intf: 0/1
       net_type: multiaccess
@@ -46,7 +46,7 @@
       remote_intf: 1/2
       net_type: point-2-point
     - local_intf: 1/7
-      ip: 172.17.255.1/31
+      ip: 172.17.255.2/24
       remote_id: R1
       remote_intf: 0/2
       net_type: multiaccess
@@ -64,7 +64,7 @@
       remote_intf: 1/1
       net_type: point-2-point
     - local_intf: 1/7
-      ip: 172.17.255.3/31
+      ip: 172.17.255.3/24
       remote_id: R1
       remote_intf: 0/3
       net_type: multiaccess

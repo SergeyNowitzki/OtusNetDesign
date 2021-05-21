@@ -20,7 +20,7 @@ key chain OSPF_KEY
 
 {% for intf in interfaces %}
 interface Ethernet{{ intf.local_intf }}
-  description *** UPLINK_{{ intf.remote_id }}_ETH_{{ intf.remote_intf }} ***
+  description *** DOWNLINK_{{ intf.remote_id }}_ETH_{{ intf.remote_intf }} ***
   no switchport
   bfd interval 50 min_rx 50 multiplier 3
   bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
