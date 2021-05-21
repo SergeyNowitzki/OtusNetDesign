@@ -17,5 +17,4 @@ with open("data_files/spines_params.yaml", 'r') as f:
         filename = spine['name']+'.ios'
         print(filename)
         with open(f"SPINES/{filename}",'w') as f:
-            print(template.render(spine))
             f.write(template.render(spine))

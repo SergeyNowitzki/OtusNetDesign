@@ -19,7 +19,7 @@ key chain OSPF_KEY
     key-string 7 072015797d253827
 
 interface Ethernet1/1
-  description *** UPLINK_LEAF_2-1_ETH_1/1 ***
+  description *** DOWNLINK_LEAF_2-1_ETH_1/1 ***
   no switchport
   bfd interval 50 min_rx 50 multiplier 3
   bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
@@ -33,12 +33,12 @@ interface Ethernet1/1
   ip router ospf OSPF_UNDERLAY area 0.0.0.0
   no shutdown
 interface Ethernet1/7
-  description *** UPLINK_R1_ETH_0/3 ***
+  description *** DOWNLINK_R1_ETH_0/3 ***
   no switchport
   bfd interval 50 min_rx 50 multiplier 3
   bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
   no ip redirects
-  ip address 172.17.255.3/31
+  ip address 172.17.255.3/24
   no ipv6 redirects
   ip ospf authentication message-digest
   ip ospf authentication key-chain OSPF_KEY
