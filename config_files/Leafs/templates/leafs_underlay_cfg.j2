@@ -36,7 +36,7 @@ interface Ethernet{{ intf.local_intf }}
 {% endfor %}
 
 interface loopback{{ loopback.id }}
-  ip address {{ loopback.ip }}
+  ip address {{ loopback.ip }}/32
   ip ospf network point-to-point
   ip router ospf OSPF_UNDERLAY area 0.0.0.0
 line console

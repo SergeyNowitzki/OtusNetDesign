@@ -42,7 +42,7 @@ line console
 
 router ospf OSPF_UNDERLAY
   bfd
-  router-id 172.17.255.21/32
+  router-id 172.17.255.21
   log-adjacency-changes
   name-lookup
   maximum-paths 4
