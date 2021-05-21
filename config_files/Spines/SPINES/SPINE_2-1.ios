@@ -38,7 +38,7 @@ interface Ethernet1/7
   bfd interval 50 min_rx 50 multiplier 3
   bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
   no ip redirects
-  ip address 172.17.255.3/24
+  ip address 172.17.123.3/24
   no ipv6 redirects
   ip ospf authentication message-digest
   ip ospf authentication key-chain OSPF_KEY
@@ -56,7 +56,7 @@ line console
 
 router ospf OSPF_UNDERLAY
   bfd
-  router-id 172.17.255.121/32
+  router-id 172.17.255.121
   log-adjacency-changes
   name-lookup
   maximum-paths 4
