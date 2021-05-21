@@ -1,6 +1,7 @@
 # OtusNetDesign
+
 ## Network Topology and IP Addresses Allocation
-<img width="735" alt="Screen Shot 2021-05-11 at 11 48 52" src="https://user-images.githubusercontent.com/39993377/117787227-ee4aba00-b24e-11eb-9f17-d102ffd2a4ce.png">
+<img width="735" alt="Screen Shot 2021-05-22 at 00 27 16" src="https://user-images.githubusercontent.com/39993377/119200051-d831ca80-ba94-11eb-9fbc-e60ae5dfabfb.png">
 <p align="left"> Underlay IP address Block: </p>
 <table>
   <tr align="center">
