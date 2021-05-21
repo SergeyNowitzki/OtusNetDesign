@@ -19,7 +19,12 @@
     <td align="left">172.17.21.x/24</td>
     <td align="left">Spine3 IP block</td>
   </tr>
-   <tr>
+  </tr>
+    <tr>
+    <td align="left">172.17.123.x/24</td>
+    <td align="left">Multiaccess between Spines</td>
+  </tr>
+  <tr>
     <td align="left">172.17.255.x/24</td>
     <td align="left">Loopbck interfaces</td>
   </tr>
@@ -28,8 +33,9 @@
 <p align="left">Network block is devided into subnets with /31 prefix for peer to peer connection between switches.<br />
 <p align="left">Odd addresses are allocated to leafs switches and even to spines.<br />
 <ul>
-<li align="left">E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.</li>
-<li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
+  <li align="left">E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.</li>
+  <li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
+  <li align="left">E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.</li>
 </ul>
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.
 <br />
@@ -124,3 +130,15 @@
 <li align="left">avoide usnig redistribution in a OSPF process</li>
 <li align="left">use authentication in OSPF</li>
 </ul>
+<p>In this scenario R1 device is used as L2 switch to provide broadcast domain for Spines connection.</p>
+<p>All switches will be part of OSPF Area0. A network type between Spines and Leafs is Point-to-Point and between Spines - multiaccess.</p>
+<p>Role Spine devices in OSPF:</p>
+<ul>
+<li align="left">SPINE_1-1 is DR</li>
+<li align="left">SPINE_1-2 is BDR</li>
+<li align="left">SPINE_2-1 is DR/OTHER</li>
+</ul>
+
+---
+
+## Underlay. IS-IS
