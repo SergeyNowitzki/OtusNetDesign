@@ -35,14 +35,14 @@ interface Ethernet{{ intf.local_intf }}
   ip ospf network broadcast
   {% endif %}
   no ip ospf passive-interface
-  ip router ospf OSPF_UNDERLAY area 0.0.0.0
+  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ intf.area }}
   no shutdown
 {% endfor %}
 
 interface loopback{{ loopback.id }}
   ip address {{ loopback.ip }}/32
   ip ospf network point-to-point
-  ip router ospf OSPF_UNDERLAY area 0.0.0.0
+  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ loopback.area}}
 line console
   exec-timeout 0
 
