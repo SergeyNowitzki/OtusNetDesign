@@ -38,7 +38,7 @@
   <li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
   <li align="left">E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.</li>
 </ul>
-<p>NOTE: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use UNNUMBERED configuration</>
+<p>> **NOTE**: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use **UNNUMBERED** configuration</>
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.
 <br />
 <table>
