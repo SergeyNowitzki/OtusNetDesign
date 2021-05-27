@@ -18,29 +18,32 @@ key chain OSPF_KEY
   key 1
     key-string 7 072015797d253827
 
-{% for intf in interfaces %}
-interface Ethernet{{ intf.local_intf }}
-  description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
-  no switchport
-  bfd interval 50 min_rx 50 multiplier 3
-  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
-  no ip redirects
-  ip address {{ intf.ip }}
-  no ipv6 redirects
-  ip ospf authentication message-digest
-  ip ospf authentication key-chain OSPF_KEY
-  ip ospf network point-to-point
-  no ip ospf passive-interface
-  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ intf.area }}
-  no shutdown
-{% endfor %}
-
 interface loopback{{ loopback.id }}
   ip address {{ loopback.ip }}/32
   ip ospf network point-to-point
   ip router ospf OSPF_UNDERLAY area 0.0.0.{{ loopback.area }}
 line console
   exec-timeout 0
+
+{% for intf in interfaces %}
+interface Ethernet{{ intf.local_intf }}
+  description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
+  no switchport
+  mtu 9216
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  medium p2p
+  ip unnumbered loopback {{ loopback.id }}
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf authentication key-chain OSPF_KEY
+  ip ospf network point-to-point
+  ip ospf mtu-ignore
+  no ip ospf passive-interface
+  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ intf.area }}
+  no shutdown
+{% endfor %}
 
 router ospf OSPF_UNDERLAY
   bfd

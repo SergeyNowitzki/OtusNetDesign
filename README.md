@@ -38,6 +38,7 @@
   <li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
   <li align="left">E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.</li>
 </ul>
+<p>NOTE: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use UNNUMBERED configuration</>
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.
 <br />
 <table>
@@ -122,6 +123,7 @@
 <p>To achive full reachability between all network devices we are going to use IGP protocol OSPF.</p>
 <p>We will follow the best practice reccomendations to be on the safe site:<p/>
 <ul>
+<li align="left">ip unnumbered for p-2-p between Spine and Leaf switches if devices support (in our case)</li>
 <li align="left">p-2-p connection between Spine and Leaf switches with /31 mask</li>
 <li align="left">passive interface on leaf switches</li>
 <li align="left">use default timers for routing protocol messages</li>
@@ -131,8 +133,9 @@
 <li align="left">avoide usnig redistribution in a OSPF process</li>
 <li align="left">use authentication in OSPF</li>
 </ul>
-<p>In this scenario R1 device is used as L2 switch to provide broadcast domain for Spines connection.</p>
-<p>All switches will be part of OSPF Area0. A network type between Spines and Leafs is Point-to-Point and between Spines - multiaccess.</p>
+<p>In this scenario Switch device is used as L2 switch to provide broadcast domain for Spines connection.</p>
+<p>All switches will be part of OSPF Area0 becouse we have to take into considiration the fact that all Areas in OSPF have to connect to the backbone area - Area0. So we can not assign separate spine into Area0 and connect leafs to two different Area0. We can use Area division in a scenario with multi Pods design using Super-Spine switches. In this scenario we assign Super-Spine and Spine switches into Area 0 and each Pod will be associated with its own non-backbone area.</p>
+<p>A network type between Spines and Leafs is Point-to-Point so there is no DR/BDR election process and between Spines - multiaccess. Point-to-point interfaces are also configured as `ip unnumbered` to avoid using additional ip address allocation.</p>
 <p>Role Spine devices in OSPF:</p>
 <ul>
 <li align="left">SPINE_1-1 is DR</li>
