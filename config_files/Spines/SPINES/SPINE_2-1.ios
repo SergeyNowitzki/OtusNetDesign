@@ -18,41 +18,47 @@ key chain OSPF_KEY
   key 1
     key-string 7 072015797d253827
 
-interface Ethernet1/1
-  description *** DOWNLINK_LEAF_2-1_ETH_1/1 ***
-  no switchport
-  bfd interval 50 min_rx 50 multiplier 3
-  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
-  no ip redirects
-  ip address 172.17.21.0/31
-  no ipv6 redirects
-  ip ospf authentication message-digest
-  ip ospf authentication key-chain OSPF_KEY
-  ip ospf network point-to-point
-  no ip ospf passive-interface
-  ip router ospf OSPF_UNDERLAY area 0.0.0.0
-  no shutdown
-interface Ethernet1/7
-  description *** DOWNLINK_R1_ETH_0/3 ***
-  no switchport
-  bfd interval 50 min_rx 50 multiplier 3
-  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
-  no ip redirects
-  ip address 172.17.123.3/24
-  no ipv6 redirects
-  ip ospf authentication message-digest
-  ip ospf authentication key-chain OSPF_KEY
-  ip ospf network broadcast
-  no ip ospf passive-interface
-  ip router ospf OSPF_UNDERLAY area 0.0.0.0
-  no shutdown
-
 interface loopback0
   ip address 172.17.255.121/32
   ip ospf network point-to-point
   ip router ospf OSPF_UNDERLAY area 0.0.0.0
 line console
   exec-timeout 0
+
+interface Ethernet1/1
+  description *** DOWNLINK_LEAF_2-1_ETH_1/1 ***
+  no switchport
+  mtu 9216
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf authentication key-chain OSPF_KEY
+  medium p2p
+  ip ospf network point-to-point
+  ip unnumbered loopback 0
+  ip ospf mtu-ignore
+  no ip ospf passive-interface
+  ip router ospf OSPF_UNDERLAY area 0.0.0.0
+  no shutdown
+interface Ethernet1/7
+  description *** DOWNLINK_R1_ETH_0/3 ***
+  no switchport
+  mtu 9216
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  no ipv6 redirects
+  ip ospf authentication message-digest
+  ip ospf authentication key-chain OSPF_KEY
+  ip address 172.17.123.3/24
+  medium broadcast
+  ip ospf network broadcast
+  ip ospf mtu-ignore
+  no ip ospf passive-interface
+  ip router ospf OSPF_UNDERLAY area 0.0.0.0
+  no shutdown
 
 router ospf OSPF_UNDERLAY
   bfd
