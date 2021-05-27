@@ -9,7 +9,7 @@ import yaml
 dir_path = "/Users/sergeyn/Data_Files/Online_Cources/OtusNetDesign/config_files/Leafs/"
 
 env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True, lstrip_blocks=True)
-template = env.get_template('spines_underlay_cfg.j2')
+template = env.get_template('spines_underlay_ospf_cfg.j2')
 
 with open("data_files/spines_params.yaml", 'r') as f:
     spines = yaml.safe_load(f)

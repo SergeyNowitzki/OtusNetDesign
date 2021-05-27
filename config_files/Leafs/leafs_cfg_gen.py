@@ -9,7 +9,7 @@ import yaml
 dir_path = "/Users/sergeyn/Data_Files/Online_Cources/OtusNetDesign/config_files/Leafs/"
 
 env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True, lstrip_blocks=True)
-template = env.get_template('leafs_underlay_cfg.j2')
+template = env.get_template('leafs_underlay_ospf_cfg.j2')
 
 with open("data_files/leafs_params.yaml", 'r') as fr:
     leafs = yaml.safe_load(fr)
