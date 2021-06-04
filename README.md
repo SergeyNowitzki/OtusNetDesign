@@ -38,7 +38,7 @@
   <li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
   <li align="left">E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.</li>
 </ul>
-<p>NOTE: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use **UNNUMBERED** configuration</p>
+NOTE: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use **UNNUMBERED** configuration
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.
 <br />
 <table>
@@ -133,7 +133,7 @@
 <li align="left">avoide usnig redistribution in a OSPF process</li>
 <li align="left">use authentication in OSPF</li>
 </ul>
-In this scenario Switch device is used as L2 switch to provide broadcast domain for Spines connection.</p>
+In this scenario Switch device is used as L2 switch to provide broadcast domain for Spines connection.
 All switches will be part of OSPF Area0 becouse we have to take into considiration the fact that all Areas in OSPF have to connect to the backbone area - Area0. So we can not assign separate spine into Area0 and connect leafs to two different Area0. We can use Area division in a scenario with multi Pods design using Super-Spine switches. In this scenario we assign Super-Spine and Spine switches into Area 0 and each Pod will be associated with its own non-backbone area.
 A network type between Spines and Leafs is Point-to-Point so there is no DR/BDR election process and between Spines - multiaccess. Point-to-point interfaces are also configured as `ip unnumbered` to avoid using additional ip address allocation.
 Role Spine devices in OSPF:
