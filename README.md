@@ -133,10 +133,10 @@
 <li align="left">avoide usnig redistribution in a OSPF process</li>
 <li align="left">use authentication in OSPF</li>
 </ul>
-<p>In this scenario Switch device is used as L2 switch to provide broadcast domain for Spines connection.</p>
-<p>All switches will be part of OSPF Area0 becouse we have to take into considiration the fact that all Areas in OSPF have to connect to the backbone area - Area0. So we can not assign separate spine into Area0 and connect leafs to two different Area0. We can use Area division in a scenario with multi Pods design using Super-Spine switches. In this scenario we assign Super-Spine and Spine switches into Area 0 and each Pod will be associated with its own non-backbone area.</p>
-<p>A network type between Spines and Leafs is Point-to-Point so there is no DR/BDR election process and between Spines - multiaccess. Point-to-point interfaces are also configured as `ip unnumbered` to avoid using additional ip address allocation.</p>
-<p>Role Spine devices in OSPF:</p>
+In this scenario Switch device is used as L2 switch to provide broadcast domain for Spines connection.</p>
+All switches will be part of OSPF Area0 becouse we have to take into considiration the fact that all Areas in OSPF have to connect to the backbone area - Area0. So we can not assign separate spine into Area0 and connect leafs to two different Area0. We can use Area division in a scenario with multi Pods design using Super-Spine switches. In this scenario we assign Super-Spine and Spine switches into Area 0 and each Pod will be associated with its own non-backbone area.
+A network type between Spines and Leafs is Point-to-Point so there is no DR/BDR election process and between Spines - multiaccess. Point-to-point interfaces are also configured as `ip unnumbered` to avoid using additional ip address allocation.
+Role Spine devices in OSPF:
 <ul>
 <li align="left">SPINE_1-1 is DR</li>
 <li align="left">SPINE_1-2 is BDR</li>
@@ -146,3 +146,4 @@
 ---
 
 ## Underlay. IS-IS
+The alternative IGP protocol is used to provide full connectivity between network devices.
