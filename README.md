@@ -146,4 +146,10 @@ Role Spine devices in OSPF:
 ---
 
 ## Underlay. IS-IS
-The alternative IGP protocol is used to provide full connectivity between network devices.
+IS-IS is the alternative IGP protocol which is used to provide full connectivity between network devices.
+This protocol satisfies requirements for a protocol on clos topology:
+- ECMP
+- Opportunity to increase bandwidth for East-West traffic
+- Reliability and resiliency because of using redundancy and ECMP
+- Scalability
+- Manageability 
