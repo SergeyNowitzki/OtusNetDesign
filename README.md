@@ -153,3 +153,9 @@ This protocol satisfies requirements for a protocol on clos topology:
 - Reliability and resiliency because of using redundancy and ECMP
 - Scalability
 - Manageability 
+
+Compare IS-IS to OSPF we have to take into considirations its following adwantages:
+- Stability (ISIS is based on CLNS, that is, it runs at the link layer. In this way, even if the IP layer is faulty, the Layer 2 communication is not interrupted)
+- Scalability (all routing information is transmitted using TLVs (TYPE/LENGTH/VALUE), ensuring simple structure and providing easy scalability)
+- Convergence
+- Compleity (ISIS areas are classified into level1 and level2, the backbone area of ISIS is relatively flexible.)
