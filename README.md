@@ -164,4 +164,10 @@ All Spines switches can be L2/L1 type and all Leafs swithces can be L1-type in t
 L1 type for Leafs allows us to avoid an overwhelming number of routes in a routing table. In this case Leafs will receive only defoult routes from Spines.
 As far as Spine switches are connected with each other in a single broadcast domain through Switch it allows exchange routing information between all L2-type devices. A network infrastructure can be easily scaled up.
 
-If we consider to use IS-IS in spine/leaf two-layer architecture implementation within one POD without using interconnection between Spines switches we have to apply L2-type to all Clos devices. This is step also provides us opportubity to recieve more specific prefixes from all devices to use routing domain more flexible. All Leafs switches will be in the 
+If we consider to use IS-IS in spine/leaf two-layer architecture implementation within one POD without using interconnection between Spines switches we have to apply L2-type to all Clos devices. This is step also provides us opportubity to recieve more specific prefixes from all devices to use routing domain more flexible. All Spine/Leafe switches will be in the different Areas to control size of the IS-IS topological database. The topological information is not shared between administrative domains, only reachability information is shared. Following this design allows us to avoid escaping a big impact in the overall network stabilityan because of unstable link or failure.
+
+---
+
+## Underlay. BGP
+###### iBGP
+###### eBGP
