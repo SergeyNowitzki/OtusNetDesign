@@ -156,8 +156,8 @@ This protocol satisfies requirements for a protocol on clos topology:
 
 Compare to OSPF IS-IS has got following advantages:
 - Stability (ISIS is based on CLNS, that is, it runs at the link layer. In this way, even if the IP layer is faulty, the Layer 2 communication is not interrupted)
-- Scalability (All routing information is transmitted using TLVs (TYPE/LENGTH/VALUE), ensuring simple structure and providing easy scalability)
-- Convergence (When the network scale is large, the convergence speed of ISIS is much faster than that of OSPF. When changes occur on the network segment where a node in an area resides, PRC algorithm is triggered, ensuring fast route convergence and low route calculation cost,)
+- Scalability (All routing information is transmitted using TLVs (TYPE/LENGTH/VALUE), ensuring simple structure and providing easy scalability.)
+- Convergence (When the network scale is large, the convergence speed of ISIS is much faster than that of OSPF. When changes occur on the network segment where a node in an area resides, PRC algorithm is triggered, ensuring fast route convergence and low route calculation cost.)
 - Complexity (ISIS areas are classified into level1 and level2, the backbone area of ISIS is relatively flexible.)
 
-
+All spines switches will be L2/L1 type.
