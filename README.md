@@ -169,5 +169,8 @@ If we consider to use IS-IS in spine/leaf two-layer architecture implementation 
 ---
 
 ## Underlay. BGP
+ISIS Versus OSPF as from the perspective of DC underlay network it will not make a big difference. So for the sake simplicity an IGP in DC is either ISIS or OSPF for underlay network (OSPF may more popular).
+
 ###### iBGP
+
 ###### eBGP
