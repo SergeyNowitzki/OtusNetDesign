@@ -18,6 +18,11 @@ key chain OSPF_KEY
   key 1
     key-string 7 072015797d253827
 
+router isis
+ bfd
+ net 49.{{ area_id }}.0000.0000.0001.00
+ is-type level-2-only
+
 interface loopback{{ loopback.id }}
   ip address {{ loopback.ip }}/32
   ip ospf network point-to-point
@@ -36,19 +41,6 @@ interface Ethernet{{ intf.local_intf }}
   medium p2p
   ip unnumbered loopback {{ loopback.id }}
   no ipv6 redirects
-  ip ospf authentication message-digest
-  ip ospf authentication key-chain OSPF_KEY
-  ip ospf network point-to-point
-  ip ospf mtu-ignore
-  no ip ospf passive-interface
-  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ intf.area }}
+  ip router isis
   no shutdown
 {% endfor %}
-
-router ospf OSPF_UNDERLAY
-  bfd
-  router-id {{ loopback.ip }}
-  log-adjacency-changes
-  name-lookup
-  maximum-paths 4
-  passive-interface default
