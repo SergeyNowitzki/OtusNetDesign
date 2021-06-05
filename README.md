@@ -160,6 +160,8 @@ Compare to OSPF IS-IS has got following advantages:
 - Convergence (When the network scale is large, the convergence speed of ISIS is much faster than that of OSPF. When changes occur on the network segment where a node in an area resides, PRC algorithm is triggered, ensuring fast route convergence and low route calculation cost.)
 - Complexity (ISIS areas are classified into level1 and level2, the backbone area of ISIS is relatively flexible.)
 
-All Spines switches will be L2/L1 type and all Leafs swithces will be L1-type in their own Area.
-L1 type for Leafs allows us to avoid an overwhelming number of routes in a routing table. Leafs will receive only defoult routes from Spines.
-As far as Spine switches are connected with each other in a single broadcast domain through Switch it allows exchange routing information between all L2-type devices. This approach is a benifit of IS-IS - Scalability. A network infrastructure can be easily scaled up. 
+All Spines switches can be L2/L1 type and all Leafs swithces can be L1-type in their own Area.
+L1 type for Leafs allows us to avoid an overwhelming number of routes in a routing table. In this case Leafs will receive only defoult routes from Spines.
+As far as Spine switches are connected with each other in a single broadcast domain through Switch it allows exchange routing information between all L2-type devices. A network infrastructure can be easily scaled up.
+
+If we consider to use IS-IS in spine/leaf two-layer architecture implementation within one POD without using interconnection between Spines switches we have to apply L2-type to all Clos devices. This is step also provides us opportubity to recieve more specific prefixes from all devices to use routing domain more flexible. All Leafs switches will be in the 
