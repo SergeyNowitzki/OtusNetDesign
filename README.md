@@ -120,8 +120,8 @@ NOTE: This ip address plan with /31 prefix for p-2-p connection is used when dev
 
 ## Underlay. OSPF
 
-<p>To achive full reachability between all network devices we are going to use IGP protocol OSPF.</p>
-<p>We will follow the best practice reccomendations to be on the safe site:<p/>
+To achive full reachability between all network devices we are going to use IGP protocol OSPF
+We will follow the best practice reccomendations to be on the safe site:
 <ul>
 <li align="left">ip unnumbered for p-2-p between Spine and Leaf switches if devices support (in our case)</li>
 <li align="left">p-2-p connection between Spine and Leaf switches with /31 mask</li>
@@ -146,7 +146,7 @@ Role Spine devices in OSPF:
 ---
 
 ## Underlay. IS-IS
-IS-IS is the alternative IGP protocol which is used to provide full connectivity between network devices.
+IS-IS is the alternative IGP protocol which also can used as an Underlay Layer to provide full connectivity between network devices.
 This protocol satisfies requirements for a protocol on clos topology:
 - ECMP
 - Opportunity to increase bandwidth for East-West traffic
@@ -154,8 +154,10 @@ This protocol satisfies requirements for a protocol on clos topology:
 - Scalability
 - Manageability 
 
-Compare IS-IS to OSPF we have to take into considirations its following adwantages:
+Compare to OSPF IS-IS has got following advantages:
 - Stability (ISIS is based on CLNS, that is, it runs at the link layer. In this way, even if the IP layer is faulty, the Layer 2 communication is not interrupted)
-- Scalability (all routing information is transmitted using TLVs (TYPE/LENGTH/VALUE), ensuring simple structure and providing easy scalability)
-- Convergence
-- Compleity (ISIS areas are classified into level1 and level2, the backbone area of ISIS is relatively flexible.)
+- Scalability (All routing information is transmitted using TLVs (TYPE/LENGTH/VALUE), ensuring simple structure and providing easy scalability)
+- Convergence (When the network scale is large, the convergence speed of ISIS is much faster than that of OSPF. When changes occur on the network segment where a node in an area resides, PRC algorithm is triggered, ensuring fast route convergence and low route calculation cost,)
+- Complexity (ISIS areas are classified into level1 and level2, the backbone area of ISIS is relatively flexible.)
+
+
