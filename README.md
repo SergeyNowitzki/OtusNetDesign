@@ -161,4 +161,5 @@ Compare to OSPF IS-IS has got following advantages:
 - Complexity (ISIS areas are classified into level1 and level2, the backbone area of ISIS is relatively flexible.)
 
 All Spines switches will be L2/L1 type and all Leafs swithces will be L1-type in their own Area.
-L1 type for Leafs allows us to avoid overhelmig 
+L1 type for Leafs allows us to avoid an overwhelming number of routes in a routing table. Leafs will receive only defoult routes from Spines.
+As far as Spine switches are connected with each other in a single broadcast domain through Switch it allows exchange routing information between all L2-type devices. This approach is a benifit of IS-IS - Scalability. A network infrastructure can be easily scaled up. 
