@@ -176,7 +176,7 @@ Under router isis CLI ` [no] hello padding [multi-point|point-to-point] `
 
 Under interface CLI ` [no] isis hello padding `
 
-
+- Even if padding is disabled, at the beginning, the router still sends a few hellos at full MTU. `always` option which is hidden can be used to prevent it.
 
 ---
 
