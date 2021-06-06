@@ -22,7 +22,16 @@ def ospf_config_gen(template):
             with open(f"SPINES/OSPF_UNDERLAY/{filename}",'w') as f:
                 f.write(template.render(spine))
 
+def isis_config_gen(template):
+    with open("data_files/spines_params.yaml", 'r') as fr:
+        leafs = yaml.safe_load(fr)
+        for leaf in leafs:
+            filename = leaf['name']+'_isis.ios'
+            print(f'Config file {filename} has been created')
+            with open(f"SPINES/ISIS_UNDERLAY/{filename}",'w') as fw:
+                fw.write(template.render(leaf))
 
 
 if __name__ == '__main__':
-    ospf_config_gen(template_ospf)
+    #ospf_config_gen(template_ospf)
+    isis_config_gen(template_isis)

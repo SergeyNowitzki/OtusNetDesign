@@ -30,5 +30,7 @@ def isis_config_gen(template):
             with open(f"LEAFS/ISIS_UNDERLAY/{filename}",'w') as fw:
                 fw.write(template.render(leaf))
 
+
 if __name__ == '__main__':
-    ospf_config_gen(template_ospf)
+    #ospf_config_gen(template_ospf)
+    isis_config_gen(template_isis)

@@ -122,17 +122,17 @@ NOTE: This ip address plan with /31 prefix for p-2-p connection is used when dev
 
 To achive full reachability between all network devices we are going to use IGP protocol OSPF
 We will follow the best practice reccomendations to be on the safe site:
-<ul>
-<li align="left">ip unnumbered for p-2-p between Spine and Leaf switches if devices support (in our case)</li>
-<li align="left">p-2-p connection between Spine and Leaf switches with /31 mask</li>
-<li align="left">passive interface on leaf switches</li>
-<li align="left">use default timers for routing protocol messages</li>
-<li align="left">use BFD protocol to detect failurs between switches</li>
-<li align="left">launch OSPF process on all switches within backbone area (area 0)</li>
-<li align="left">use point-to-point network type on interfaces</li>
-<li align="left">avoide usnig redistribution in a OSPF process</li>
-<li align="left">use authentication in OSPF</li>
-</ul>
+
+- ip unnumbered for p-2-p between Spine and Leaf switches if devices support (in our case)
+- p-2-p connection between Spine and Leaf switches with /31 mask
+- passive interface on leaf switches
+- use default timers for routing protocol messages
+- use BFD protocol to detect failurs between switches
+- launch OSPF process on all switches within backbone area (area 0)
+- use point-to-point network type on interfaces
+- avoide usnig redistribution in a OSPF process
+- use authentication in OSPF
+
 In this scenario Switch device is used as L2 switch to provide broadcast domain for Spines connection.
 All switches will be part of OSPF Area0 becouse we have to take into considiration the fact that all Areas in OSPF have to connect to the backbone area - Area0. So we can not assign separate spine into Area0 and connect leafs to two different Area0. We can use Area division in a scenario with multi Pods design using Super-Spine switches. In this scenario we assign Super-Spine and Spine switches into Area 0 and each Pod will be associated with its own non-backbone area.
 A network type between Spines and Leafs is Point-to-Point so there is no DR/BDR election process and between Spines - multiaccess. Point-to-point interfaces are also configured as `ip unnumbered` to avoid using additional ip address allocation.
@@ -164,6 +164,19 @@ L1 type for Leafs allows us to avoid an overwhelming number of routes in a routi
 As far as Spine switches are connected with each other in a single broadcast domain through Switch it allows exchange routing information between all L2-type devices. A network infrastructure can be easily scaled up.
 
 If we consider to use IS-IS in spine/leaf two-layer architecture implementation within one POD without using interconnection between Spines switches we have to apply L2-type to all Clos devices. This is step also provides us opportubity to recieve more specific prefixes from all devices to use routing domain more flexible. All Spine/Leafe switches will be in the different Areas to control size of the IS-IS topological database. The topological information is not shared between administrative domains, only reachability information is shared. Following this design allows us to avoid escaping a big impact in the overall network stabilityan because of unstable link or failure.
+
+> IS-IS by default pads the Hellos to the **full interface MTU size** to detect MTU mismatches
+
+If we are sure of the MTU on the link, the padding of the Hellos can be turned off:
+- Avoid using bandwidth unnecessary 
+- Reduced Buffer Usage 
+- Reduced processing overhead when using authentication 
+
+Under router isis CLI ` [no] hello padding [multi-point|point-to-point] `
+
+Under interface CLI ` [no] isis hello padding `
+
+- Even if padding is disabled, at the beginning, the router still sends a few hellos at full MTU. `always` option which is hidden can be used to prevent it.
 
 ---
 

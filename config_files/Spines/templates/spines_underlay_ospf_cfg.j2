@@ -11,6 +11,14 @@ feature bfd
 
 username admin password 5 $5$Z4AuMoMG$zr8QbnKL9reprlpWHPqb4Dkwiul7VvnhaIPe5gJuBk
 
+policy-map type network-qos jumbo
+class type network-qos class-default
+mtu 9216
+exit
+exit
+system qos
+service-policy type network-qos jumbo
+
 bfd echo-interface loopback0
 bfd startup-timer 20
 

@@ -1,0 +1,98 @@
+
+hostname SPINE_1-2
+
+feature isis
+feature interface-vlan
+feature lacp
+feature vpc
+feature lldp
+feature bfd
+
+username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
+
+bfd echo-interface loopback0
+bfd startup-timer 20
+
+key chain ISIS_KEY
+  key 1
+    key-string 7 072015797d253827
+
+router isis ISIS_UNDERLAY
+ net 49.9999.0001.0001.1002.00
+ is-type level-2
+ passive-interface default level-1-2
+ address-family ipv4 unicast
+  bfd
+
+interface loopback0
+  ip address 172.17.255.112/32
+  ip router isis ISIS_UNDERLAY
+
+line console
+  exec-timeout 0
+
+interface Ethernet1/1
+  description *** DOWNLINK_LEAF_1-1_ETH_1/2 ***
+  no switchport
+  mtu 1500
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  no ipv6 redirects
+  medium p2p
+  ip unnumbered loopback 0
+  isis network point-to-point
+  isis authentication-type md5
+  isis authentication key-chain ISIS_KEY
+  ip router isis ISIS_UNDERLAY
+  isis circuit-type level-2
+  no isis passive-interface level-2
+  no shutdown
+interface Ethernet1/2
+  description *** DOWNLINK_LEAF_1-2_ETH_1/2 ***
+  no switchport
+  mtu 1500
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  no ipv6 redirects
+  medium p2p
+  ip unnumbered loopback 0
+  isis network point-to-point
+  isis authentication-type md5
+  isis authentication key-chain ISIS_KEY
+  ip router isis ISIS_UNDERLAY
+  isis circuit-type level-2
+  no isis passive-interface level-2
+  no shutdown
+interface Ethernet1/3
+  description *** DOWNLINK_LEAF_1-3_ETH_1/2 ***
+  no switchport
+  mtu 1500
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  no ipv6 redirects
+  medium p2p
+  ip unnumbered loopback 0
+  isis network point-to-point
+  isis authentication-type md5
+  isis authentication key-chain ISIS_KEY
+  ip router isis ISIS_UNDERLAY
+  isis circuit-type level-2
+  no isis passive-interface level-2
+  no shutdown
+interface Ethernet1/7
+  description *** DOWNLINK_R1_ETH_0/2 ***
+  no switchport
+  mtu 1500
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no ip redirects
+  no ipv6 redirects
+  ip address 172.17.123.2/24
+  medium broadcast
+  ip router isis ISIS_UNDERLAY
+  isis circuit-type level-2
+  no isis passive-interface level-2
+  no shutdown

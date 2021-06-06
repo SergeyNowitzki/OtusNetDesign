@@ -1,32 +1,33 @@
 
 hostname {{ name }}
 
-feature ospf
-feature bgp
+feature isis
 feature interface-vlan
 feature lacp
 feature vpc
 feature lldp
 feature bfd
 
-username admin password 5 $5$Z4AuMoMG$zr8QbnKL9reprlpWHPqb4Dkwiul7VvnhaIPe5gJuBk
+username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
 
 bfd echo-interface loopback0
 bfd startup-timer 20
 
-key chain OSPF_KEY
+key chain ISIS_KEY
   key 1
     key-string 7 072015797d253827
 
-router isis
- bfd
- net 49.{{ area_id }}.0000.0000.0001.00
- is-type level-2-only
+router isis ISIS_UNDERLAY
+ net 49.{{ isis_area }}.000{{ dc_id }}.000{{ row }}.000{{ id }}.00
+ is-type level-2
+ passive-interface default level-1-2
+ address-family ipv4 unicast
+  bfd
 
 interface loopback{{ loopback.id }}
   ip address {{ loopback.ip }}/32
-  ip ospf network point-to-point
-  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ loopback.area }}
+  ip router isis ISIS_UNDERLAY
+
 line console
   exec-timeout 0
 
@@ -34,13 +35,18 @@ line console
 interface Ethernet{{ intf.local_intf }}
   description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
   no switchport
-  mtu 9216
+  mtu 1500
   bfd interval 50 min_rx 50 multiplier 3
   bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
   no ip redirects
+  no ipv6 redirects
   medium p2p
   ip unnumbered loopback {{ loopback.id }}
-  no ipv6 redirects
-  ip router isis
+  ip router isis ISIS_UNDERLAY
+  isis network point-to-point
+  isis circuit-type level-2
+  no isis passive-interface level-2
+  isis authentication-type md5
+  isis authentication key-chain ISIS_KEY
   no shutdown
 {% endfor %}
