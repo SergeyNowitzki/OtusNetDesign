@@ -10,8 +10,6 @@ feature bfd
 
 username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
 
-bfd echo-interface loopback0
-bfd startup-timer 20
 
 key chain ISIS_KEY
   key 1
@@ -22,7 +20,6 @@ router isis ISIS_UNDERLAY
  is-type level-2
  passive-interface default level-1-2
  address-family ipv4 unicast
-  bfd
 
 interface loopback{{ loopback.id }}
   ip address {{ loopback.ip }}/32
@@ -36,8 +33,6 @@ interface Ethernet{{ intf.local_intf }}
   description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
   no switchport
   mtu 1500
-  bfd interval 50 min_rx 50 multiplier 3
-  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
   no ip redirects
   no ipv6 redirects
   medium p2p
