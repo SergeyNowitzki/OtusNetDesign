@@ -165,7 +165,18 @@ As far as Spine switches are connected with each other in a single broadcast dom
 
 If we consider to use IS-IS in spine/leaf two-layer architecture implementation within one POD without using interconnection between Spines switches we have to apply L2-type to all Clos devices. This is step also provides us opportubity to recieve more specific prefixes from all devices to use routing domain more flexible. All Spine/Leafe switches will be in the different Areas to control size of the IS-IS topological database. The topological information is not shared between administrative domains, only reachability information is shared. Following this design allows us to avoid escaping a big impact in the overall network stabilityan because of unstable link or failure.
 
-> Pardon my French
+> IS-IS by default pads the Hellos to the full interface MTU size to detect MTU mismatches
+> If we are sure of the MTU on the link, the padding of the Hellos can be turned off:
+	– Avoid using bandwidth unnecessary 
+	– Reduced Buffer Usage 
+	– Reduced processing overhead when using authentication 
+Under router isis CLI 
+` [no] hello padding [multi-point|point-to-point] `
+Under interface CLI 
+` [no] isis hello padding `
+
+
+
 ---
 
 ## Underlay. BGP
