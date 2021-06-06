@@ -71,6 +71,7 @@
 - id: 3
   row: 2
   dc_id: 1
+  isis_area: 9999
   name: SPINE_2-1
   interfaces:
     - local_intf: 1/1
