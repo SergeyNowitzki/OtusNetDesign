@@ -178,6 +178,8 @@ Under interface CLI ` [no] isis hello padding `
 
 - Even if padding is disabled, at the beginning, the router still sends a few hellos at full MTU. `always` option which is hidden can be used to prevent it.
 
+> We also have to take into consideration that BFD protol is not supported by EVE-NG, so BFD must disable from configuration to create adjacency between ISIS peers.
+
 ---
 
 ## Underlay. BGP
