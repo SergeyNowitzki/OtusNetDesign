@@ -168,9 +168,10 @@ If we consider to use IS-IS in spine/leaf two-layer architecture implementation 
 > IS-IS by default pads the Hellos to the **full interface MTU size** to detect MTU mismatches
 
 If we are sure of the MTU on the link, the padding of the Hellos can be turned off:
-– Avoid using bandwidth unnecessary 
-– Reduced Buffer Usage 
-– Reduced processing overhead when using authentication 
+- Avoid using bandwidth unnecessary 
+- Reduced Buffer Usage 
+- Reduced processing overhead when using authentication 
+
 Under router isis CLI 
 ` [no] hello padding [multi-point|point-to-point] `
 Under interface CLI 
