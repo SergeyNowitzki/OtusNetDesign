@@ -172,11 +172,9 @@ If we are sure of the MTU on the link, the padding of the Hellos can be turned o
 - Reduced Buffer Usage 
 - Reduced processing overhead when using authentication 
 
-Under router isis CLI
-` [no] hello padding [multi-point|point-to-point] `
+Under router isis CLI ` [no] hello padding [multi-point|point-to-point] `
 
-Under interface CLI
-` [no] isis hello padding `
+Under interface CLI ` [no] isis hello padding `
 
 
 
