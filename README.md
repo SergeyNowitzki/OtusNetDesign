@@ -186,8 +186,11 @@ Under interface CLI ` [no] isis hello padding `
 ISIS Versus OSPF as from the perspective of DC underlay network it will not make a big difference. So for the sake simplicity an IGP in DC is either ISIS or OSPF for underlay network (OSPF may more popular).
 
 ###### iBGP
-In this case there is a point which devices we are going to use as Route Reflectors (RR). For example in case we use as RR Spine Switches it will cause configuration complexity (proper design RR cluster to prevent loops in a topology) and prevention increase scalability as well.
-Therefore if we had like to choose iBGP protocol as an IGP it would be better deploying VMs with routing module as RR function. In this scenario BFD mast be enabled between all VMs connections as far as interfaces on Virtual Switch of a Hypervisor are always up. Such implementation allows us to avoid drowbacks which were discribed in scenario with RR on Spines.
+In this case there is a point which devices we are going to use as Route Reflectors (RR).
+For example in case we use as RR Spine Switches it will cause configuration complexity (proper design RR cluster to prevent loops in a topology) and prevention increase scalability as well.
+Therefore if we had like to choose iBGP protocol as an IGP it would be better deploying VMs with routing module as RR function.
+In this scenario BFD must be enabled between all VMs connections as far as interfaces on Virtual Switch of a Hypervisor are always up.
+Such implementation allows us to avoid drowbacks which were discribed in scenario with RR on Spines.
 Overall we are not going to use iBGP as an IGP for underlay network due to its complexity.
 
 ###### eBGP
