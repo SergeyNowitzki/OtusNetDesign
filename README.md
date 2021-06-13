@@ -192,5 +192,7 @@ Therefore if we had like to choose iBGP protocol as an IGP it would be better de
 In this scenario BFD must be enabled between all VMs connections as far as interfaces on Virtual Switch of a Hypervisor are always up.
 Such implementation allows us to avoid drowbacks which were discribed in scenario with RR on Spines.
 Overall we are not going to use iBGP as an IGP for underlay network due to its complexity.
+We have also take into considiration the fact that we are using eBGP protocol for Underlay.
+So using eBGP as a IGP will give preference to the selection of a single routing protocol to reduce complexity and interdependencies.
 
 ###### eBGP
