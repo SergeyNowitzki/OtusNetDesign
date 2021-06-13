@@ -196,3 +196,4 @@ We have also take into considiration the fact that we are using eBGP protocol fo
 So using eBGP as a IGP will give preference to the selection of a single routing protocol to reduce complexity and interdependencies.
 
 ###### eBGP
+This part is reffering to IETF of P. Lapukhov [Use of BGP for Routing in Large-Scale Data Centers](https://datatracker.ietf.org/doc/html/rfc7938#section-3.2)
