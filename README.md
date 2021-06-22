@@ -2,7 +2,9 @@
 
 ## Network Topology and IP Addresses Allocation
 <img width="735" alt="Screen Shot 2021-05-22 at 00 27 16" src="https://user-images.githubusercontent.com/39993377/119200051-d831ca80-ba94-11eb-9fbc-e60ae5dfabfb.png">
+
 Underlay IP address Block:
+
 | IP Block          | Description                 |
 | ----------------- | --------------------------- |
 | 172.17.11.x/24    | Spine1 IP block             |
