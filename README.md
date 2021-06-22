@@ -2,42 +2,23 @@
 
 ## Network Topology and IP Addresses Allocation
 <img width="735" alt="Screen Shot 2021-05-22 at 00 27 16" src="https://user-images.githubusercontent.com/39993377/119200051-d831ca80-ba94-11eb-9fbc-e60ae5dfabfb.png">
-<p align="left"> Underlay IP address Block: </p>
-<table>
-  <tr align="center">
-    <th>IP Block</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td align="left">172.17.11.x/24</td>
-    <td align="left">Spine1 IP block</td>
-  </tr>
-    <tr>
-    <td align="left">172.17.12.x/24</td>
-    <td align="left">Spine2 IP block</td>
-  </tr>
-    <tr>
-    <td align="left">172.17.21.x/24</td>
-    <td align="left">Spine3 IP block</td>
-  </tr>
-  </tr>
-    <tr>
-    <td align="left">172.17.123.x/24</td>
-    <td align="left">Multiaccess between Spines</td>
-  </tr>
-  <tr>
-    <td align="left">172.17.255.x/24</td>
-    <td align="left">Loopbck interfaces</td>
-  </tr>
-</table><br />
-<p align="left">Each first interface on a leaf switch is connected to the first spine, the second - to the second leaf and so on.<br />
-<p align="left">Network block is devided into subnets with /31 prefix for peer to peer connection between switches.<br />
-<p align="left">Odd addresses are allocated to leafs switches and even to spines.<br />
-<ul>
-  <li align="left">E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.</li>
-  <li align="left">link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.</li>
-  <li align="left">E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.</li>
-</ul>
+Underlay IP address Block:
+| IP Block          | Description                 |
+| ----------------- | --------------------------- |
+| 172.17.11.x/24    | Spine1 IP block             |
+| 172.17.12.x/24    | Spine2 IP block             |
+| 172.17.21.x/24    | Spine3 IP block             |
+| 172.17.123.x/24   | Multiaccess between Spines  |
+| 172.17.255.x/24   | Loopbck interfaces          |
+
+Each first interface on a leaf switch is connected to the first spine, the second - to the second leaf and so on.
+Network block is devided into subnets with /31 prefix for peer to peer connection between switches.
+Odd addresses are allocated to leafs switches and even to spines.
+
+- E.g. link between Leaf_1-1 E1/1: 172.17.11.1/31 and Spine_1-1 E1/1: 172.17.11.0/31.
+- link between Leaf_1-1 E1/2: 172.17.12.1/31 and Spine_1-2 E1/1: 172.17.12.0/31.
+- E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.
+
 NOTE: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use **UNNUMBERED** configuration
 <p align="left">Full IP address allocation for the scheme is displayed in the table below.
 <br />
