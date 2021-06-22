@@ -197,3 +197,19 @@ So using eBGP as a IGP will give preference to the selection of a single routing
 
 ###### eBGP
 This part is reffering to IETF of P. Lapukhov [Use of BGP for Routing in Large-Scale Data Centers](https://datatracker.ietf.org/doc/html/rfc7938#section-3.2)
+
+Pros of using eBGP:
+- one protocol on Underlay and Overlay (no IGP)
+- flexible management
+- template configuration
+- scalability and maintenance (`as-path multipath-relax`)
+- ECMP load balancing (`maximum-path <number-paths>`)
+
+**Fault Detection Timing**
+The proposed routing design does not use an IGP, so the remaining mechanisms that could be used for fault detection are BGP keep-alive time-out (or any other type of keep-alive mechanism) and link-failure triggers.
+
+Relying solely on BGP keep-alive packets may result in high convergence delays, on the order of multiple seconds (on many BGP implementations the minimum configurable BGP hold timer value is three seconds).  However, many BGP implementations can shut down local EBGP peering sessions in response to the "link down" event for the outgoing interface used for BGP peering.
+
+Alternatively, some platforms may support BFD to allow for sub-second failure detection and fault signaling to the BGP process.
+
+Each leaf has got their own AS number. Spine switches is going to be configured in one AS.
