@@ -200,4 +200,4 @@ BGP AS allocation:
 | Device  | AS number                |
 | ------- | ------------------------ |
 | Leaf    | 6500{{ device number }}  |
-| Spine   | 646{{ pod number }}      |
+| Spine   | 6460{{ pod number }}      |
