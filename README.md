@@ -213,3 +213,8 @@ Relying solely on BGP keep-alive packets may result in high convergence delays, 
 Alternatively, some platforms may support BFD to allow for sub-second failure detection and fault signaling to the BGP process.
 
 Each leaf has got their own AS number. Spine switches is going to be configured in one AS.
+BGP AS allocation:
+| Device  | AS number                |
+| ------- | ------------------------ |
+| Leaf    | 6500{{ device number }}  |
+| Spine   | 646{{ pod number }}      |
