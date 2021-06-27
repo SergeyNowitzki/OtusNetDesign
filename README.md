@@ -197,7 +197,7 @@ Alternatively, some platforms may support BFD to allow for sub-second failure de
 
 Each leaf has got their own AS number. Spine switches is going to be configured in one AS.
 BGP AS allocation:
-| Device  | AS number                |
-| ------- | ------------------------ |
-| Leaf    | 6500{{ device number }}  |
-| Spine   | 6460{{ pod number }}      |
+| Device  | AS number                                      |
+| ------- | ---------------------------------------------- |
+| Leaf    | 65{{ data_center }}{{ row }}{{ device number }}|
+| Spine   | 6460{{ pod number }}                           |
