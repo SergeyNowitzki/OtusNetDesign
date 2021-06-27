@@ -1,0 +1,67 @@
+
+hostname {{ name }}
+
+feature bgp
+feature interface-vlan
+feature lacp
+feature vpc
+feature lldp
+feature bfd
+
+username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
+
+
+ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
+
+ip prefix-list PL_ANY permit 0.0.0.0/0 le 32
+
+route-map RM_LO permit 10
+  match ip address prefix-list PL_LO
+
+route-map RM_OUT permit 10
+  match ip address prefix-list PL_ANY
+
+route-map RM_IN permit 10
+  match ip address prefix-list PL_ANY
+
+
+router bgp 65{{dc_id}}{{row}}{{id}}
+address-family ipv4 unicast
+maximum-paths 4
+redistribute direct route-map RM_LO
+  template peer SPINE
+    bfd
+    password cisco123
+    update-source loopback0
+    timers 3 9
+    address-family ipv4 unicast
+      send-community both
+      soft-reconfiguration inbound
+      route-map RM_OUT out
+      route-map RM_IN in
+{% for intf in interfaces %}
+{% set lo_spine = intf.ip.split('/')[0].split('.')[2] %}
+  neighbor 172.17.255.1{{ lo_spine }}
+    inherit peer SPINE
+    remote-as 6460{{dc_id}}
+    description PEERING_{{ intf.spine_id }}
+    ebgp-multihop 4
+{% endfor %}
+
+interface loopback{{ loopback.id }}
+  ip address {{ loopback.ip }}/32
+
+line console
+  exec-timeout 0
+
+{% for intf in interfaces %}
+interface Ethernet{{ intf.local_intf }}
+  description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
+  no switchport
+  mtu 1500
+  no ip redirects
+  no ipv6 redirects
+  medium p2p
+  ip unnumbered loopback {{ loopback.id }}
+  no shutdown
+{% endfor %}

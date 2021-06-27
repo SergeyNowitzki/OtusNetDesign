@@ -1,0 +1,90 @@
+
+hostname LEAF_1-3
+
+feature bgp
+feature interface-vlan
+feature lacp
+feature vpc
+feature lldp
+feature bfd
+
+username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
+
+
+ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
+
+ip prefix-list PL_ANY permit 0.0.0.0/0 le 32
+
+route-map RM_LO permit 10
+  match ip address prefix-list PL_LO
+
+route-map RM_OUT permit 10
+  match ip address prefix-list PL_ANY
+
+route-map RM_IN permit 10
+  match ip address prefix-list PL_ANY
+
+
+router bgp 65113
+address-family ipv4 unicast
+maximum-paths 4
+redistribute direct route-map RM_LO
+  template peer SPINE
+    bfd
+    password cisco123
+    update-source loopback0
+    timers 3 9
+    address-family ipv4 unicast
+      send-community both
+      soft-reconfiguration inbound
+      route-map RM_OUT out
+      route-map RM_IN in
+  neighbor 172.17.255.111
+    inherit peer SPINE
+    remote-as 64601
+    description PEERING_SPINE_1-1
+    ebgp-multihop 4
+router bgp 65113
+address-family ipv4 unicast
+maximum-paths 4
+redistribute direct route-map RM_LO
+  template peer SPINE
+    bfd
+    password cisco123
+    update-source loopback0
+    timers 3 9
+    address-family ipv4 unicast
+      send-community both
+      soft-reconfiguration inbound
+      route-map RM_OUT out
+      route-map RM_IN in
+  neighbor 172.17.255.112
+    inherit peer SPINE
+    remote-as 64601
+    description PEERING_SPINE_1-2
+    ebgp-multihop 4
+
+interface loopback0
+  ip address 172.17.255.13/32
+
+line console
+  exec-timeout 0
+
+interface Ethernet1/1
+  description *** UPLINK_SPINE_1-1_ETH_1/3 ***
+  no switchport
+  mtu 1500
+  no ip redirects
+  no ipv6 redirects
+  medium p2p
+  ip unnumbered loopback 0
+  no shutdown
+interface Ethernet1/2
+  description *** UPLINK_SPINE_1-2_ETH_1/3 ***
+  no switchport
+  mtu 1500
+  no ip redirects
+  no ipv6 redirects
+  medium p2p
+  ip unnumbered loopback 0
+  no shutdown
