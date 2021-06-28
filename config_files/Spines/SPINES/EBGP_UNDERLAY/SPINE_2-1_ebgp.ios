@@ -1,5 +1,5 @@
 
-hostname {{ name }}
+hostname SPINE_2-1
 
 feature isis
 feature interface-vlan
@@ -8,7 +8,7 @@ feature vpc
 feature lldp
 feature bfd
 
-username {{ user }} password {{ passwd }}
+username  password 
 
 
 ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
@@ -24,7 +24,7 @@ route-map RM_OUT permit 10
 route-map RM_IN permit 10
   match ip address prefix-list PL_ANY
 
-router bgp 6460{{dc_id}}
+router bgp 64601
 address-family ipv4 unicast
 maximum-paths 4
 redistribute direct route-map RM_LO
@@ -41,55 +41,50 @@ redistribute direct route-map RM_LO
   template peer SPINE
     bfd
     password cisco123
-    update-source loopback0
+    update-source Ethernet1/7 
     timers 3 9
     address-family ipv4 unicast
       send-community both
       soft-reconfiguration inbound
       route-map RM_OUT out
       route-map RM_IN in
-{% for intf in interfaces %}
-{% if intf.net_type == 'multiaccess' %}
-{% for peer in bgp_peers %}
-  neighbor {{ peer.neighbor }}
-    inherit peer SPINE
-    remote-as 6460{{peer.as_id}}
-    description PEERING_{{ peer.name }}
-    ebgp-multihop 4
-{% endfor %}
-{% set lo_leaf = intf.remote_id.split('_')[1].replace('-', '') %}
-  neighbor 172.17.255.{{ lo_leaf }}
+  neighbor 172.17.255.21
     inherit peer LEAF
-    remote-as 65{{dc_id}}{{row}}{{id}}
-    description PEERING_{{ intf.remote_id }}
+    remote-as 65124
+    description PEERING_LEAF_2-1
     ebgp-multihop 4
-{% endfor %}
+  neighbor ['172.17.123.1']
+    inherit peer SPINE
+    remote-as 64601
+    description PEERING_SPINE_1-1
+    ebgp-multihop 4
+  neighbor ['172.17.123.2']
+    inherit peer SPINE
+    remote-as 64602
+    description PEERING_SPINE_1-2
+    ebgp-multihop 4
 
-interface loopback{{ loopback.id }}
-  ip address {{ loopback.ip }}/32
+interface loopback0
+  ip address 172.17.255.121/32
 
 line console
   exec-timeout 0
 
-{% for intf in interfaces %}
-interface Ethernet{{ intf.local_intf }}
-  description *** DOWNLINK_{{ intf.remote_id }}_ETH_{{ intf.remote_intf }} ***
+interface Ethernet1/1
+  description *** DOWNLINK_LEAF_2-1_ETH_1/1 ***
   no switchport
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  {% if intf.net_type == 'point-2-point' %}
   medium p2p
-  ip unnumbered loopback {{ loopback.id }}
-  isis network point-to-point
-  isis authentication-type md5
-  isis authentication key-chain ISIS_KEY
-  {% else %}
-  ip address {{ intf.ip }}
-  medium broadcast
-  {% endif %}
-  ip router isis ISIS_UNDERLAY
-  isis circuit-type level-2
-  no isis passive-interface level-2
+  ip unnumbered loopback 0
   no shutdown
-{% endfor %}
+interface Ethernet1/7
+  description *** DOWNLINK_R_1-1_ETH_0/3 ***
+  no switchport
+  mtu 1500
+  no ip redirects
+  no ipv6 redirects
+  ip address 172.17.123.3/24
+  medium broadcast
+  no shutdown
