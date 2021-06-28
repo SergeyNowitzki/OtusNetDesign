@@ -8,7 +8,7 @@ feature vpc
 feature lldp
 feature bfd
 
-username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
+username admin password Adm1nNX0$
 
 
 ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
@@ -44,20 +44,6 @@ redistribute direct route-map RM_LO
     remote-as 64601
     description PEERING_SPINE_1-1
     ebgp-multihop 4
-router bgp 65111
-address-family ipv4 unicast
-maximum-paths 4
-redistribute direct route-map RM_LO
-  template peer SPINE
-    bfd
-    password cisco123
-    update-source loopback0
-    timers 3 9
-    address-family ipv4 unicast
-      send-community both
-      soft-reconfiguration inbound
-      route-map RM_OUT out
-      route-map RM_IN in
   neighbor 172.17.255.112
     inherit peer SPINE
     remote-as 64601

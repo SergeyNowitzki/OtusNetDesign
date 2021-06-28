@@ -8,7 +8,7 @@ feature vpc
 feature lldp
 feature bfd
 
-username admin password 5 $5$L2urM.Xe$y/KDoFgiQGkoIc9gzWZa3gYKzhEEasJfDT0PAAmKym
+username  password 
 
 
 ip prefix-list PL_LO permit 172.17.255.0/24 ge 32

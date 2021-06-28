@@ -1,6 +1,8 @@
 - id: 1
   row: 1
   dc_id: 1
+  user: admin
+  passwd: Adm1nNX0$
   isis_area: 9999
   name: LEAF_1-1
   interfaces:

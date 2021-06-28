@@ -1,7 +1,7 @@
 
 hostname {{ name }}
 
-feature bgp
+feature isis
 feature interface-vlan
 feature lacp
 feature vpc
@@ -24,11 +24,20 @@ route-map RM_OUT permit 10
 route-map RM_IN permit 10
   match ip address prefix-list PL_ANY
 
-
-router bgp 65{{dc_id}}{{row}}{{id}}
+router bgp 6460{{dc_id}}
 address-family ipv4 unicast
 maximum-paths 4
 redistribute direct route-map RM_LO
+  template peer LEAF
+    bfd
+    password cisco123
+    update-source loopback0
+    timers 3 9
+    address-family ipv4 unicast
+      send-community both
+      soft-reconfiguration inbound
+      route-map RM_OUT out
+      route-map RM_IN in
   template peer SPINE
     bfd
     password cisco123
@@ -40,11 +49,19 @@ redistribute direct route-map RM_LO
       route-map RM_OUT out
       route-map RM_IN in
 {% for intf in interfaces %}
-{% set lo_spine = intf.ip.split('/')[0].split('.')[2] %}
-  neighbor 172.17.255.1{{ lo_spine }}
+{% if intf.net_type == 'multiaccess' %}
+{% for peer in bgp_peers %}
+  neighbor {{ peer.neighbor }}
     inherit peer SPINE
-    remote-as 6460{{dc_id}}
-    description PEERING_{{ intf.spine_id }}
+    remote-as 6460{{peer.as_id}}
+    description PEERING_{{ peer.name }}
+    ebgp-multihop 4
+{% endfor %}
+{% set lo_leaf = intf.remote_id.split('_')[1].replace('-', '') %}
+  neighbor 172.17.255.{{ lo_leaf }}
+    inherit peer LEAF
+    remote-as 65{{dc_id}}{{row}}{{id}}
+    description PEERING_{{ intf.remote_id }}
     ebgp-multihop 4
 {% endfor %}
 
@@ -56,12 +73,23 @@ line console
 
 {% for intf in interfaces %}
 interface Ethernet{{ intf.local_intf }}
-  description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
+  description *** DOWNLINK_{{ intf.remote_id }}_ETH_{{ intf.remote_intf }} ***
   no switchport
   mtu 1500
   no ip redirects
   no ipv6 redirects
+  {% if intf.net_type == 'point-2-point' %}
   medium p2p
   ip unnumbered loopback {{ loopback.id }}
+  isis network point-to-point
+  isis authentication-type md5
+  isis authentication key-chain ISIS_KEY
+  {% else %}
+  ip address {{ intf.ip }}
+  medium broadcast
+  {% endif %}
+  ip router isis ISIS_UNDERLAY
+  isis circuit-type level-2
+  no isis passive-interface level-2
   no shutdown
 {% endfor %}
