@@ -32,19 +32,18 @@ redistribute direct route-map RM_LO
   template peer SPINE
     bfd
     password cisco123
-    update-source loopback0
     timers 3 9
     address-family ipv4 unicast
       send-community both
       soft-reconfiguration inbound
       route-map RM_OUT out
       route-map RM_IN in
-  neighbor 172.17.255.111
+  neighbor 172.17.11.2
     inherit peer SPINE
     remote-as 64601
     description PEERING_SPINE_1-1
     ebgp-multihop 4
-  neighbor 172.17.255.112
+  neighbor 172.17.12.2
     inherit peer SPINE
     remote-as 64601
     description PEERING_SPINE_1-2
@@ -59,18 +58,16 @@ line console
 interface Ethernet1/1
   description *** UPLINK_SPINE_1-1_ETH_1/2 ***
   no switchport
+  ip address 172.17.11.3/31
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  medium p2p
-  ip unnumbered loopback 0
   no shutdown
 interface Ethernet1/2
   description *** UPLINK_SPINE_1-2_ETH_1/2 ***
   no switchport
+  ip address 172.17.12.3/31
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  medium p2p
-  ip unnumbered loopback 0
   no shutdown

@@ -10,11 +10,13 @@
       ip: 172.17.11.1/31
       spine_id: SPINE_1-1
       spine_itf: 1/1
+      bgp_peer: 172.17.11.0
       area: 0
     - local_intf: 1/2
       ip: 172.17.12.1/31
       spine_id: SPINE_1-2
       spine_itf: 1/1
+      bgp_peer: 172.17.12.0
       area: 0
   loopback:
     id: 0
@@ -31,11 +33,13 @@
       ip: 172.17.11.3/31
       spine_id: SPINE_1-1
       spine_itf: 1/2
+      bgp_peer: 172.17.11.2
       area: 0
     - local_intf: 1/2
       ip: 172.17.12.3/31
       spine_id: SPINE_1-2
       spine_itf: 1/2
+      bgp_peer: 172.17.12.2
       area: 0
   loopback:
     id: 0
@@ -52,11 +56,13 @@
       ip: 172.17.11.5/31
       spine_id: SPINE_1-1
       spine_itf: 1/3
+      bgp_peer: 172.17.11.4
       area: 0
     - local_intf: 1/2
       ip: 172.17.12.5/31
       spine_id: SPINE_1-2
       spine_itf: 1/3
+      bgp_peer: 172.17.12.4
       area: 0
   loopback:
     id: 0
@@ -73,6 +79,7 @@
       ip: 172.17.21.1/31
       spine_id: SPINE_2-1
       spine_itf: 1/1
+      bgp_peer: 172.17.21.0
       area: 0
   loopback:
     id: 0

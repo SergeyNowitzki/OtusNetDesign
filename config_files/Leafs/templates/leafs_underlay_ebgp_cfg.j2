@@ -32,7 +32,6 @@ redistribute direct route-map RM_LO
   template peer SPINE
     bfd
     password cisco123
-    update-source loopback0
     timers 3 9
     address-family ipv4 unicast
       send-community both
@@ -40,10 +39,9 @@ redistribute direct route-map RM_LO
       route-map RM_OUT out
       route-map RM_IN in
 {% for intf in interfaces %}
-{% set lo_spine = intf.ip.split('/')[0].split('.')[2] %}
-  neighbor 172.17.255.1{{ lo_spine }}
+  neighbor {{ intf.bgp_peer }}
     inherit peer SPINE
-    remote-as 6460{{dc_id}}
+    remote-as 6460{{ row }}
     description PEERING_{{ intf.spine_id }}
     ebgp-multihop 4
 {% endfor %}
@@ -58,10 +56,9 @@ line console
 interface Ethernet{{ intf.local_intf }}
   description *** UPLINK_{{ intf.spine_id }}_ETH_{{ intf.spine_itf }} ***
   no switchport
+  ip address {{ intf.ip }}
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  medium p2p
-  ip unnumbered loopback {{ loopback.id }}
   no shutdown
 {% endfor %}

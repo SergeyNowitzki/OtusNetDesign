@@ -2,6 +2,7 @@
 hostname {{ name }}
 
 feature isis
+feature bgp
 feature interface-vlan
 feature lacp
 feature vpc
@@ -24,14 +25,13 @@ route-map RM_OUT permit 10
 route-map RM_IN permit 10
   match ip address prefix-list PL_ANY
 
-router bgp 6460{{dc_id}}
+router bgp 6460{{ row }}
 address-family ipv4 unicast
 maximum-paths 4
 redistribute direct route-map RM_LO
   template peer LEAF
     bfd
     password cisco123
-    update-source loopback0
     timers 3 9
     address-family ipv4 unicast
       send-community both
@@ -59,7 +59,7 @@ redistribute direct route-map RM_LO
     ebgp-multihop 4
 {% endfor %}
 {% else %}
-  neighbor 172.17.255.{{ lo_leaf }}
+  neighbor {{ intf.bgp_peer }}
     inherit peer LEAF
     remote-as 65{{dc_id}}{{row}}{{intf.leaf_id}}
     description PEERING_{{ intf.remote_id }}
@@ -77,15 +77,9 @@ line console
 interface Ethernet{{ intf.local_intf }}
   description *** DOWNLINK_{{ intf.remote_id }}_ETH_{{ intf.remote_intf }} ***
   no switchport
+  ip address {{ intf.ip }}
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  {% if intf.net_type == 'point-2-point' %}
-  medium p2p
-  ip unnumbered loopback {{ loopback.id }}
-  {% else %}
-  ip address {{ intf.ip }}
-  medium broadcast
-  {% endif %}
   no shutdown
 {% endfor %}

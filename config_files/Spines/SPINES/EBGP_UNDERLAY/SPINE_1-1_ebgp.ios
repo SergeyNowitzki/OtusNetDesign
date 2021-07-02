@@ -2,6 +2,7 @@
 hostname SPINE_1-1
 
 feature isis
+feature bgp
 feature interface-vlan
 feature lacp
 feature vpc
@@ -31,7 +32,6 @@ redistribute direct route-map RM_LO
   template peer LEAF
     bfd
     password cisco123
-    update-source loopback0
     timers 3 9
     address-family ipv4 unicast
       send-community both
@@ -48,17 +48,17 @@ redistribute direct route-map RM_LO
       soft-reconfiguration inbound
       route-map RM_OUT out
       route-map RM_IN in
-  neighbor 172.17.255.11
+  neighbor 172.17.11.1
     inherit peer LEAF
     remote-as 65111
     description PEERING_LEAF_1-1
     ebgp-multihop 4
-  neighbor 172.17.255.12
+  neighbor 172.17.11.3
     inherit peer LEAF
     remote-as 65112
     description PEERING_LEAF_1-2
     ebgp-multihop 4
-  neighbor 172.17.255.13
+  neighbor 172.17.11.5
     inherit peer LEAF
     remote-as 65113
     description PEERING_LEAF_1-3
@@ -83,36 +83,32 @@ line console
 interface Ethernet1/1
   description *** DOWNLINK_LEAF_1-1_ETH_1/1 ***
   no switchport
+  ip address 172.17.11.0/31
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  medium p2p
-  ip unnumbered loopback 0
   no shutdown
 interface Ethernet1/2
   description *** DOWNLINK_LEAF_1-2_ETH_1/1 ***
   no switchport
+  ip address 172.17.11.2/31
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  medium p2p
-  ip unnumbered loopback 0
   no shutdown
 interface Ethernet1/3
   description *** DOWNLINK_LEAF_1-3_ETH_1/1 ***
   no switchport
+  ip address 172.17.11.4/31
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  medium p2p
-  ip unnumbered loopback 0
   no shutdown
 interface Ethernet1/7
   description *** DOWNLINK_R_1-1_ETH_0/1 ***
   no switchport
+  ip address 172.17.123.1/24
   mtu 1500
   no ip redirects
   no ipv6 redirects
-  ip address 172.17.123.1/24
-  medium broadcast
   no shutdown

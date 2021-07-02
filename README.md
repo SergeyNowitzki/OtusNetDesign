@@ -201,3 +201,27 @@ BGP AS allocation:
 | ------- | ---------------------------------------------- |
 | Leaf    | 65{{ data_center }}{{ row }}{{ device number }}|
 | Spine   | 6460{{ pod number }}                           |
+
+Here is the result of `show ip route bgp` command which was executed on LEAF_1-1.
+It depictes full connectivity between devices:
+```
+LEAF_1-1# show ip route bgp-65111
+172.17.255.12/32, ubest/mbest: 2/0
+    *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+    *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+172.17.255.13/32, ubest/mbest: 2/0
+    *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+    *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+172.17.255.21/32, ubest/mbest: 2/0
+    *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+    *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+172.17.255.111/32, ubest/mbest: 2/0
+    *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+    *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+172.17.255.112/32, ubest/mbest: 2/0
+    *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+    *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+172.17.255.121/32, ubest/mbest: 2/0
+    *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+    *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
+```
