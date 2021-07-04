@@ -4,8 +4,12 @@ feature pim
 feature nv overlay
 feature vn-segment-vlan-based
 nv overlay evpn
-
-
+!
+ip pim rp-address 172.17.254.254 group-list 224.0.0.0/4
+ip pim anycast-rp 172.17.254.254 172.17.254.112
+ip pim anycast-rp 172.17.254.254 172.17.254.121
+ip pim ssm range 232.0.0.0/8
+!
 interface loopback0
   description ** source for routing protocols **
   ip address 172.17.255.111/32
@@ -13,6 +17,10 @@ interface loopback0
 interface loopback1
   description ** VNI source Interface **
   ip address 172.17.254.111/32
+  ip pim sparse-mode
+interface loopback254
+  description ** Unique Address for Anycast-RP **
+  ip address 172.17.254.254/32
   ip pim sparse-mode
 
 

@@ -5,7 +5,8 @@ feature nv overlay
 feature vn-segment-vlan-based
 feature interface-vlan
 nv overlay evpn
-
+!
+ip pim rp-address {{ mcast_rp }} group-list 224.0.0.0/4
 ip pim ssm range 232.0.0.0/8
 !
 {% for vlan in vlans %}

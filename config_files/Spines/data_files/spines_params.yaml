@@ -5,6 +5,10 @@
   passwd: Adm1nNX0$
   isis_area: 9999
   name: SPINE_1-1
+  pim_neighbors:
+    - 172.17.254.112
+    - 172.17.254.121
+  rp_anycast: 172.17.254.254
   interfaces:
     - local_intf: 1/1
       ip: 172.17.11.0/31
@@ -51,12 +55,19 @@
     - id: 1
       desc: VNI source Interface
       ip: 172.17.254.111
+    - id: 254
+      desc: Unique Address for Anycast-RP
+      ip: 172.17.254.254
 
 - id: 2
   row: 1
   dc_id: 1
   isis_area: 9999
   name: SPINE_1-2
+  pim_neighbors:
+    - 172.17.254.111
+    - 172.17.254.121
+  rp_anycast: 172.17.254.254
   interfaces:
     - local_intf: 1/1
       ip: 172.17.12.0/31
@@ -103,12 +114,19 @@
     - id: 1
       desc: VNI source Interface
       ip: 172.17.254.112
+    - id: 254
+      desc: Unique Address for Anycast-RP
+      ip: 172.17.254.254
 
 - id: 3
   row: 2
   dc_id: 1
   isis_area: 9999
   name: SPINE_2-1
+  pim_neighbors:
+    - 172.17.254.111
+    - 172.17.254.112
+  rp_anycast: 172.17.254.254
   interfaces:
     - local_intf: 1/1
       ip: 172.17.21.0/31
@@ -137,5 +155,8 @@
       ip: 172.17.255.121
       area: 0
     - id: 1
-      desc: VNI source Interface
+      desc: Anycast-RP address
       ip: 172.17.254.121
+    - id: 254
+      desc: Unique Address for Anycast-RP
+      ip: 172.17.254.254

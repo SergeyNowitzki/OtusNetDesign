@@ -4,8 +4,13 @@ feature pim
 feature nv overlay
 feature vn-segment-vlan-based
 nv overlay evpn
-
-
+!
+ip pim rp-address {{ rp_anycast }} group-list 224.0.0.0/4
+{% for neighbor in pim_neighbors %}
+ip pim anycast-rp {{ rp_anycast }} {{ neighbor }}
+{% endfor %}
+ip pim ssm range 232.0.0.0/8
+!
 {% for lo in loopback %}
 interface loopback{{ lo.id }}
   description ** {{ lo.desc }} **

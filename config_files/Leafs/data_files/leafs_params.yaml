@@ -5,6 +5,7 @@
   passwd: Adm1nNX0$
   isis_area: 9999
   name: LEAF_1-1
+  mcast_rp: 172.17.254.254
   vlans:
     - vlan_id: 100
       vni: 10100
@@ -44,6 +45,7 @@
   dc_id: 1
   isis_area: 9999
   name: LEAF_1-2
+  mcast_rp: 172.17.254.254
   vlans:
     - vlan_id: 100
       vni: 10100
@@ -83,6 +85,7 @@
   dc_id: 1
   isis_area: 9999
   name: LEAF_1-3
+  mcast_rp: 172.17.254.254
   vlans:
     - vlan_id: 100
       vni: 10100
@@ -122,6 +125,7 @@
   dc_id: 1
   isis_area: 9999
   name: LEAF_2-1
+  mcast_rp: 172.17.254.254
   vlans:
     - vlan_id: 100
       vni: 10100
