@@ -22,8 +22,7 @@ Odd addresses are allocated to leafs switches and even to spines.
 - E1/7 on SPINE_1-1, SPINE_1-2 and SPINE_2-1 has the last octet of the subnet - .1, .2 and .3 respectively.
 
 NOTE: This ip address plan with /31 prefix for p-2-p connection is used when devices are not suuposed to use **UNNUMBERED** configuration
-<p align="left">Full IP address allocation for the scheme is displayed in the table below.
-<br />
+Full IP address allocation for the scheme is displayed in the table below.
 <table>
   <tr align="center">
     <th>&nbsp;</th>
@@ -55,8 +54,7 @@ NOTE: This ip address plan with /31 prefix for p-2-p connection is used when dev
   </tr>
 </table>
 <br />
-<p align="left">IP address on loppback interfaces:
-<br />
+IP address on loppback interfaces:
 <table>
   <tr align="left">
     <th>Device Name</th>
@@ -225,3 +223,92 @@ LEAF_1-1# show ip route bgp-65111
     *via 172.17.11.0, [20/0], 1d13h, bgp-65111, external, tag 64601
     *via 172.17.12.0, [20/0], 1d13h, bgp-65111, external, tag 64601
 ```
+
+---
+
+## VxLAN. BUM traffic learning
+VxLAN terminology:
+- VNI / VNID – VXLAN Network Identifier, or VXLAN ID. This replaces VLAN ID.
+- VTEP – VXLAN Tunnel End Point, the end point where the box performs VXLAN encap / decap. This could be physical HW(Nexus9k) or virtual (Nexus 1000v, Nexus 9000v). 
+- VXLAN Segmenet -  The resulting layer 2 overlay network 
+- VXLAN Gateway – Device that forwards traffic between VXLANS. The VXLAN Gateway can be both L2 and L3 forwarding. 
+- NVE – Network Virtualization Edge, is the tunnel interface, and represents VTEP
+- BUM traffic - Broadcast Unknown Unicast
+
+There are multiple ways to build the VXLAN mapping database, which is VTEP IP address-to-MAC address mapping. It is essential to be able to forward traffic.
+Address learning aproaches:
+- Data Plane Learning - traditional method to learning addresses
+- Controll Plne Learing - method uses BGP to share MAC address information
+
+**VXLAN Data Plane Learning**
+VXLAN data plane learning utilizes flood-and learn mechanisms to build its VTEP-to-MAC address information. It requires multicast to be running in the underlying network to reduce flooding scope. Each VNI is mapped to a multicast group, so only the hosts participating in a specific VXLAN segment will receive the traffic. The multicast group is mapped to the VNI. It is also used to transport broadcast, unknown unicast, and multicast traffic (BUM traffic: ARP, ND, DHCP and other).
+
+**VXLAN Unicast-Only Mode**
+This scenario is also known as unicast-only mode (Ingress Replication). VTEPs can be statically configured, or a control plane can announce to each VTEP the list of VTEPs and associated VNIs. The VTEP receiving the BUM traffic is responsible for creating multiple copies of the traffic and sending it to the remote VTEPs, which are mapped to a specific VNI (each packet is replicated to all other VTEPS belonging to the same vni). In smaller installations this is valid solutions because of its simplicity, there is no need for the Multicast protocol in Underlay network.
+
+**VXLAN Using Control Plane Protocol**
+Multiprotocol Border Gateway Protocol (MP-BGP) Ethernet virtual private network (EVPN) can be used as the control plane protocol. It can provide peer VTEP discovery and end-host reachability information, establish BGP peering between VTEPs, advertise MAC-to-VNI mapping and MAC-to-IP mapping, and advertise using BGP EVPN. EVPN uses the L2VPN EVPN address family to advertise this information.
+
+
+###### Multicast
+IP multicast is used to reduce the flooding scope of the set of hosts that are participating in the VXLAN segment.
+Each VXLAN segment, or VNID, is mapped to an IP multicast group in the transport IP network.
+Each VTEP device is independently configured and joins this multicast
+group as an IP host through the Internet Group Management Protocol (IGMP). The IGMP joins trigger PIM joins and signaling through the transport network for the particular multicast group. The multicast distribution tree for this group is
+built through the transport network based on the locations of participating VTEPs.
+BUM traffic in the VNI will be encapsulated into multicast packets using this multicast group as the outer destination IP address and then sent to the remote VTEPs using the underlay network multicast replication and forwarding
+Configuration example:
+```
+vlan 200
+    vn-segment 1200
+interface nve 1
+    member vni 1200
+        mcast-group 225.2.2.2
+```
+2 Multicast Mode can be used in Clos topology:
+
+- PIM-ASM (Anycast-RP)
+We should use different source loopback address from loopback which is partisipating in routing process.
+If interface nve1 down the interface beloning to its source will be also in down state that can be cause an routing process issue.
+On Leaf Switches we have to configure RP as a anycast RP of Spine Switches e.g.
+```
+ip pim rp-address 10.10.10.254 group-list 224.0.0.0/4
+```
+On Spines we need to configure additional loopback interface for Anycast-RP and also unique address for Anycast-RP.
+```
+ip pim rp-address 10.10.10.254 group-list 224.0.0.0/4
+ip pim anycast-rp 10.10.10.254 10.10.10.11
+```
+Each interface of switches that is partisipating in PIM process configure the following command `(config-if)# ip pim sparse-mode`.
+- PIM-SSM
+It requires source information only. There is no Randevous Point in Source Specific Multicast, no RP Engineering , no Anycast RP. It is designed for One to Many applications. Source address information should be known by the receivers though. In PIM SSM all the routers every source-group address state. Thus it requires more memory and cpu on the devices, there is no (*,G) state in PIM SSM, only (S,G). We also must ensure that IGMPv3 is enabled on interfaces which connect to SSM clients.
+Once you have PIM-SM running, PIM-SSM is trivial to enable: `(config)# ip pim ssm default` (default group range (232.0.0.0/8)).
+We also must ensure that IGMPv3 is enabled on interfaces which connect to SSM clients: `(config-if)# ip igmp version 3`
+Now any requests to join a multicast group within the specified SSM range must specify a source address, and no shared trees will be built for these SSM channels.
+
+- PIM BiDir (Phantom RP)
+PIM Bidir enabled routers only keep (*,G) states. Only shared tree is used in Bidirectional PIM for sources and destinations.
+Not optimal traffic flow since all the traffic always have to pass through Randevous Point.
+PIM BiDir at a glance — One shared tree per multicast group.
+Use different length mask (e.g. /29 and /28) in Spine Switches on Loopback interfaces for multicast.
+The bidirectional Multicast Tree, where Spine with the longest preffix (/29) is working as a routing vector, is now ready. Spine with /28 is not participating the Shared Tree at this moment. In case of active Spine failure, backup Spine still advertises RPA network with mask /28.
+Protocol is not well compatible with all kind off devices and vendors.
+`ip pim rp-address 10.10.10.254 group-list 238.0.0.0/24 bidir`
+
+From the complexity point of view, the Ingress Replication model is the most simple but it has its scalability limitations. If we compare PIM-ASM and PIM-BiDir we have to make a decision which is a more sutable and compatable during design.
+We have to take into account protocol specifications before making desision which is used.
+
+The foolowing address blok we are going to use for Loopback interfaces for PIM-ASM:
+| Device Name       | Loopback1 IP address | RP Anycast IP     |
+| ----------------- | --------------------- | ----------------- |
+| SPINE_1-1         |   172.17.254.111/32   | 172.17.254.254/32 |
+| SPINE_1-2         |   172.17.254.112/32   | 172.17.254.254/32 |
+| SPINE_2-1         |   172.17.254.121/32   | 172.17.254.254/32 |
+| LEAF_1-1          |   172.17.254.11/32    |         -         |
+| LEAF_1-2          |   172.17.254.12/32    |         -         |
+| LEAF_1-3          |   172.17.254.13/32    |         -         |
+| LEAF_2-1          |   172.17.254.21/32    |         -         |
+
+We are using eBGP routing protocol and configuration template to distribute source ip addresses for multicast BUM traffic in underlay network.
+
+

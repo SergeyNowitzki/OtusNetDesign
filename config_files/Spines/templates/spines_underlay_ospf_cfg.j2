@@ -26,10 +26,16 @@ key chain OSPF_KEY
   key 1
     key-string 7 072015797d253827
 
-interface loopback{{ loopback.id }}
-  ip address {{ loopback.ip }}/32
+{% for lo in loopback %}
+interface loopback{{ lo.id }}
+  description ** {{ lo.desc }} **
+  ip address {{ lo.ip }}/32
   ip ospf network point-to-point
-  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ loopback.area}}
+  {% if lo.area %}
+  ip router ospf OSPF_UNDERLAY area 0.0.0.{{ lo.area }}
+  {% endif %}
+{% endfor %}
+
 line console
   exec-timeout 0
 
@@ -47,7 +53,7 @@ interface Ethernet{{ intf.local_intf }}
   {% if intf.net_type == 'point-2-point' %}
   medium p2p
   ip ospf network point-to-point
-  ip unnumbered loopback {{ loopback.id }}
+  ip unnumbered loopback0
   {% else %}
   ip address {{ intf.ip }}
   medium broadcast
@@ -61,7 +67,11 @@ interface Ethernet{{ intf.local_intf }}
 
 router ospf OSPF_UNDERLAY
   bfd
-  router-id {{ loopback.ip }}
+{% for add in loopback %}
+ {% if add.id == 0%}
+  router-id {{ ad.ip }}
+ {% endif %}
+{% endfor %}
   log-adjacency-changes
   name-lookup
   maximum-paths 4

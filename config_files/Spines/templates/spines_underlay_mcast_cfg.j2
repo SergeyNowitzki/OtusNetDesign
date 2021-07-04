@@ -1,0 +1,21 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+
+feature pim
+feature nv overlay
+feature vn-segment-vlan-based
+nv overlay evpn
+
+
+{% for lo in loopback %}
+interface loopback{{ lo.id }}
+  description ** {{ lo.desc }} **
+  ip address {{ lo.ip }}/32
+  ip pim sparse-mode
+{% endfor %}
+
+
+{% for intf in interfaces %}
+interface Ethernet{{ intf.local_intf }}
+  ip pim sparse-mode
+  ip igmp version 3
+{% endfor %}

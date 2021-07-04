@@ -44,9 +44,13 @@
           neighbor: 172.17.123.3
       area: 0
   loopback:
-    id: 0
-    ip: 172.17.255.111
-    area: 0
+    - id: 0
+      desc: source for routing protocols
+      ip: 172.17.255.111
+      area: 0
+    - id: 1
+      desc: VNI source Interface
+      ip: 172.17.254.111
 
 - id: 2
   row: 1
@@ -92,9 +96,13 @@
           neighbor: 172.17.123.3
       area: 0
   loopback:
-    id: 0
-    ip: 172.17.255.112
-    area: 0
+    - id: 0
+      desc: source for routing protocols
+      ip: 172.17.255.112
+      area: 0
+    - id: 1
+      desc: VNI source Interface
+      ip: 172.17.254.112
 
 - id: 3
   row: 2
@@ -124,6 +132,10 @@
           neighbor: 172.17.123.2
       area: 0
   loopback:
-    id: 0
-    ip: 172.17.255.121
-    area: 0
+    - id: 0
+      desc: source for routing protocols
+      ip: 172.17.255.121
+      area: 0
+    - id: 1
+      desc: VNI source Interface
+      ip: 172.17.254.121

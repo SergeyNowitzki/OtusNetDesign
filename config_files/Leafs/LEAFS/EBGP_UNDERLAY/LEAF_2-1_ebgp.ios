@@ -10,7 +10,7 @@ feature bfd
 
 username  password 
 
-
+ip prefix-list PL_LO permit 172.17.254.0/24 ge 32
 ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
 
 ip prefix-list PL_ANY permit 0.0.0.0/0 le 32
@@ -45,7 +45,11 @@ redistribute direct route-map RM_LO
     ebgp-multihop 4
 
 interface loopback0
+  description ** source for routing protocols **
   ip address 172.17.255.21/32
+interface loopback1
+  description ** VNI source Interface **
+  ip address 172.17.254.21/32
 
 line console
   exec-timeout 0

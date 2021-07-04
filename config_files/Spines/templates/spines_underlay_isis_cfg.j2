@@ -21,9 +21,12 @@ router isis ISIS_UNDERLAY
  passive-interface default level-1-2
  address-family ipv4 unicast
 
-interface loopback{{ loopback.id }}
-  ip address {{ loopback.ip }}/32
+{% for lo in loopback %}
+interface loopback{{ lo.id }}
+  description ** {{ lo.desc }} **
+  ip address {{ lo.ip }}/32
   ip router isis ISIS_UNDERLAY
+{% endfor %}
 
 line console
   exec-timeout 0

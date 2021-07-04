@@ -12,6 +12,7 @@ env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True, lstrip
 template_ospf = env.get_template('leafs_underlay_ospf_cfg.j2')
 template_isis = env.get_template('leafs_underlay_isis_cfg.j2')
 template_ebgp = env.get_template('leafs_underlay_ebgp_cfg.j2')
+template_mcast = env.get_template('leafs_underlay_mcast_cfg.j2')
 
 def ospf_config_gen(template):
     with open("data_files/leafs_params.yaml", 'r') as fr:
@@ -40,7 +41,17 @@ def ebgp_config_gen(template):
             with open(f"LEAFS/EBGP_UNDERLAY/{filename}",'w') as fw:
                 fw.write(template.render(leaf))
 
+def mcast_config_gen(template):
+    with open("data_files/leafs_params.yaml", 'r') as fr:
+        leafs = yaml.safe_load(fr)
+        for leaf in leafs:
+            filename = leaf['name']+'_mcast.ios'
+            print(f'Config file {filename} has been created')
+            with open(f"LEAFS/MCAST_UNDERLAY/{filename}",'w') as fw:
+                fw.write(template.render(leaf))
+
 if __name__ == '__main__':
     #ospf_config_gen(template_ospf)
     #isis_config_gen(template_isis)
-    ebgp_config_gen(template_ebgp)
+    #ebgp_config_gen(template_ebgp)
+    mcast_config_gen(template_mcast)

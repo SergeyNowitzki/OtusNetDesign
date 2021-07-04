@@ -1,0 +1,49 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+
+feature pim
+feature nv overlay
+feature vn-segment-vlan-based
+feature interface-vlan
+nv overlay evpn
+
+ip pim ssm range 232.0.0.0/8
+!
+{% for vlan in vlans %}
+vlan {{ vlan.vlan_id }}
+  vn-segment {{ vlan.vni }}
+{% endfor %}
+!
+interface nve1
+  no shutdown
+  source-interface loopback1
+  {% for vlan in vlans %}
+  member vni {{ vlan.vni }}
+    mcast-group {{ vlan.mcast }}
+  {% endfor %}
+!
+{% for intf in interfaces %}
+interface Ethernet{{ intf.local_intf }}
+  ip pim sparse-mode
+  ip igmp version 3
+{% endfor %}
+!
+{% for lo in loopback %}
+interface loopback{{ lo.id }}
+  description ** {{ lo.desc }} **
+  ip address {{ lo.ip }}/32
+  ip pim sparse-mode
+{% endfor %}
+!
+{% for access in access_interfaces %}
+  {% for inf in access.interfaces %}
+interface Ethernet{{ inf }}
+  description ** Access Edge Port **
+  switchport
+  switchport mode access
+  switchport access vlan {{ access.vlan }}
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  no shutdown
+  {% endfor %}
+{% endfor %}
+!

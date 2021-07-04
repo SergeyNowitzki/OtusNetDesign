@@ -12,9 +12,10 @@ feature bfd
 username {{ user }} password {{ passwd }}
 
 
-ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 5 permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 10 permit 172.17.254.0/24 ge 32
 
-ip prefix-list PL_ANY permit 0.0.0.0/0 le 32
+ip prefix-list PL_ANY seq 5 permit 0.0.0.0/0 le 32
 
 route-map RM_LO permit 10
   match ip address prefix-list PL_LO
@@ -67,8 +68,11 @@ redistribute direct route-map RM_LO
 {% endif %}
 {% endfor %}
 
-interface loopback{{ loopback.id }}
-  ip address {{ loopback.ip }}/32
+{% for lo in loopback %}
+interface loopback{{ lo.id }}
+  description ** {{ lo.desc }} **
+  ip address {{ lo.ip }}/32
+{% endfor %}
 
 line console
   exec-timeout 0

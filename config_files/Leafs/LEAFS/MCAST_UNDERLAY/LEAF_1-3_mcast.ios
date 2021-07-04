@@ -1,0 +1,72 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+
+feature pim
+feature nv overlay
+feature vn-segment-vlan-based
+feature interface-vlan
+nv overlay evpn
+
+ip pim ssm range 232.0.0.0/8
+!
+vlan 100
+  vn-segment 10100
+vlan 200
+  vn-segment 10200
+!
+interface nve1
+  no shutdown
+  source-interface loopback1
+  member vni 10100
+    mcast-group 238.1.1.100
+  member vni 10200
+    mcast-group 238.1.1.200
+!
+interface Ethernet1/1
+  ip pim sparse-mode
+  ip igmp version 3
+interface Ethernet1/2
+  ip pim sparse-mode
+  ip igmp version 3
+!
+interface loopback0
+  description ** source for routing protocols **
+  ip address 172.17.255.13/32
+  ip pim sparse-mode
+interface loopback1
+  description ** VNI source Interface **
+  ip address 172.17.254.13/32
+  ip pim sparse-mode
+!
+interface Ethernet1/6
+  description ** Access Edge Port **
+  switchport
+  switchport mode access
+  switchport access vlan 100
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  no shutdown
+interface Ethernet1/7
+  description ** Access Edge Port **
+  switchport
+  switchport mode access
+  switchport access vlan 100
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  no shutdown
+interface Ethernet1/8
+  description ** Access Edge Port **
+  switchport
+  switchport mode access
+  switchport access vlan 200
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  no shutdown
+interface Ethernet1/9
+  description ** Access Edge Port **
+  switchport
+  switchport mode access
+  switchport access vlan 200
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+  no shutdown
+!

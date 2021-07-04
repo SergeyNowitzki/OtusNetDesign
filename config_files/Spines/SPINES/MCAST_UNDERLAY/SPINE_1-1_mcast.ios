@@ -1,0 +1,30 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+
+feature pim
+feature nv overlay
+feature vn-segment-vlan-based
+nv overlay evpn
+
+
+interface loopback0
+  description ** source for routing protocols **
+  ip address 172.17.255.111/32
+  ip pim sparse-mode
+interface loopback1
+  description ** VNI source Interface **
+  ip address 172.17.254.111/32
+  ip pim sparse-mode
+
+
+interface Ethernet1/1
+  ip pim sparse-mode
+  ip igmp version 3
+interface Ethernet1/2
+  ip pim sparse-mode
+  ip igmp version 3
+interface Ethernet1/3
+  ip pim sparse-mode
+  ip igmp version 3
+interface Ethernet1/7
+  ip pim sparse-mode
+  ip igmp version 3
