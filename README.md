@@ -311,4 +311,19 @@ The foolowing address blok we are going to use for Loopback interfaces for PIM-A
 
 We are using eBGP routing protocol and configuration template to distribute source ip addresses for multicast BUM traffic in underlay network.
 
+###### VXLAN EVPN type-2
+There are 2 method to handle BUM traffic: Multicast and Head-end (avaliable with BGP EVPN) replication.
+As it was mentioned before MP-BGP EVPN can be used as the control plane protocol.
+Control Plane learning is much more functional and efficient. Control Plane lerning means that switches learn MAC addresses before they are needed. A L2VNI is used for bridging.
+It works in the same way as a routing protocol. Switches peer with each other using BGP and share the addresses that they know about.
+This uses the EVPN address family. Each switch runs BGP and peers with other switches over the ip network. The normal BGP ruls still apply here: need full mesh or route reflector.
+Some or all of these swithes will contain VTEPs. This means that each switch automatically learns where all the other VTEPs are in the network.
 
+With extensions to the BGP EVPN address family, it is now possible to distribute endpoint (IP, MAC)-to-VTEP bindings within a VXLAN network. In this way, the moment an endpoint is learned locally at a VTEP, using BGP EVPN, this reachability information can be distributed to all the interested VTEPs. Any traffic to this endpoint can then be optimally forwarded from any other VTEP without the need for any flood traffic.
+
+The distribution of reachability information with BGP EVPN allows the realization of a distributed IP anycast gateway:
+`Leaf_N(config)# fabric forwarding anycast-gateway-mac 0000.2222.3333`
+`Leaf_N(config-if)# fabric forwarding mode anycast-gateway`
+The same default gateway can be simultaneously configured at any and all leaf switches as needed. In this way, when a workload moves between various leaf switches, it still finds its default gateway directly attached to it. This helps with virtual machine mobility.
+
+###### Leaf Redundancy - VPC
