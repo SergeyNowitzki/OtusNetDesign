@@ -322,8 +322,11 @@ Some or all of these swithes will contain VTEPs. This means that each switch aut
 With extensions to the BGP EVPN address family, it is now possible to distribute endpoint (IP, MAC)-to-VTEP bindings within a VXLAN network. In this way, the moment an endpoint is learned locally at a VTEP, using BGP EVPN, this reachability information can be distributed to all the interested VTEPs. Any traffic to this endpoint can then be optimally forwarded from any other VTEP without the need for any flood traffic.
 
 The distribution of reachability information with BGP EVPN allows the realization of a distributed IP anycast gateway:
+
 `Leaf_N(config)# fabric forwarding anycast-gateway-mac 0000.2222.3333`
+
 `Leaf_N(config-if)# fabric forwarding mode anycast-gateway`
+
 The same default gateway can be simultaneously configured at any and all leaf switches as needed. In this way, when a workload moves between various leaf switches, it still finds its default gateway directly attached to it. This helps with virtual machine mobility.
 
 ###### Leaf Redundancy - VPC
