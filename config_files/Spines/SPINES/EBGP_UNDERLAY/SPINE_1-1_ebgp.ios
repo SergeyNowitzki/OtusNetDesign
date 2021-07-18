@@ -55,7 +55,7 @@ redistribute direct route-map RM_LO
     ebgp-multihop 4
   neighbor 172.17.11.3
     inherit peer LEAF
-    remote-as 65112
+    remote-as 65111
     description PEERING_LEAF_1-2
     ebgp-multihop 4
   neighbor 172.17.11.5

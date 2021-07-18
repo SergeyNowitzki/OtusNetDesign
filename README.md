@@ -299,7 +299,7 @@ From the complexity point of view, the Ingress Replication model is the most sim
 We have to take into account protocol specifications before making desision which is used.
 
 The foolowing address blok we are going to use for Loopback interfaces for PIM-ASM:
-| Device Name       | Loopback1 IP address | RP Anycast IP     |
+| Device Name       | Loopback1 IP address  | RP Anycast IP     |
 | ----------------- | --------------------- | ----------------- |
 | SPINE_1-1         |   172.17.254.111/32   | 172.17.254.254/32 |
 | SPINE_1-2         |   172.17.254.112/32   | 172.17.254.254/32 |
@@ -330,3 +330,28 @@ The distribution of reachability information with BGP EVPN allows the realizatio
 The same default gateway can be simultaneously configured at any and all leaf switches as needed. In this way, when a workload moves between various leaf switches, it still finds its default gateway directly attached to it. This helps with virtual machine mobility.
 
 ###### Leaf Redundancy - VPC
+The bundling of multiple physical interfaces into a single logical interface between two chassis is referred to as a port channel, which is also known as a link aggregation group (LAG).
+Virtual PortChannel (vPC) is a technology that provides Layer 2 redundancy across two or more physical chassis.
+Specifically, a single chassis is connected to two other chassis that are configured as a vPC pair. The industry term for this is Multi-Chassis Link Aggregation Group (MC-LAG).
+Any device that supports layer-2 port-channels can connect by a vPC. The device does not need to be vPC aware. Devices include physical servers, firewalls, other switches, and load balancers.
+
+**Benefits of Using vPC:**
+- Enables a single device to use a port channel across two upstream switches
+- Eliminates STP blocked ports
+- Provides a loop-free topology
+- Uses all available uplink bandwidth
+- Provides fast convergence in the case of link or device failure
+- Provides link-level resiliency
+- Helps ensure high availability
+
+**vPC Limitations**
+It is important to know the limitations of vPC technology. Some of the key points about vPC limitations are outlined next:
+- Only two switches per vPC domain: A vPC domain by definition consists of a pair of switches identified by a shared vPC domain ID. It is not possible to add more than two switches or virtual device contexts (VDCs) to a vPC domain.
+- Only one vPC domain ID per switch: Only one vPC domain ID can be configured on a single switch or VDC. It is not possible for a switch or VDC to participate in more than one vPC domain.
+- Each VDC is a separate switch: vPC is a per-VDC function on the Cisco Nexus 7000 Series switches. vPCs can be configured in multiple VDCs, but the configuration is entirely independent. A separate vPC peer link and vPC peer keepalive link is required for each of the VDCs. vPC domains cannot be stretched across multiple VDCs on the same switch, and all ports for a given vPC must be in the same VDC.
+- Peer-link is always 10 Gbps or more: Only 10 Gigabit Ethernet ports can be used for the vPC peer link. It is recommended that you use at least two 10 Gigabit Ethernet ports in dedicated mode on two different I/O modules.
+- vPC is a Layer 2 port channel: A vPC is a Layer 2 port channel. The vPC technology does not support the configuration of Layer 3 port channels. Dynamic routing from the vPC peers to routers connected on a vPC is not supported. It is recommended that routing adjacencies be established on separate routed links.
+
+**Configuration for our case**
+We need allocate the same IP address to loopback interface which is configured as source-interface for VTEP (`interface nve1`) e.g. LEAF_1-1 and LEAF_1-2 Lo1: `ip address 172.17.254.100/32 secondary`
+If a Leaf in a VPC domain `id` key has to be the same on both switches, e.g. LEAF_1-1 and LEAF_1-2 - `id: 1`. In spines_params.yaml file `leaf_id` must be the same for switches in a VPC route domain as well.

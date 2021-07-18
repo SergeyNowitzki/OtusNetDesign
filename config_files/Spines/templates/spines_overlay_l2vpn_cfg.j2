@@ -1,0 +1,17 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+!anycast-gateway-mac is configured in leafs_vpc_cfg.j2
+!
+feature nv overlay
+feature vn-segment-vlan-based
+feature interface-vlan
+nv overlay evpn
+!
+router bgp 6460{{ row }}
+template peer LEAF
+  address-family l2vpn evpn
+  send-community
+  send-community extended
+template peer SPINE
+  address-family l2vpn evpn
+  send-community
+  send-community extended

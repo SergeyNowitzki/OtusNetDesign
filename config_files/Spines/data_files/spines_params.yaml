@@ -21,7 +21,7 @@
     - local_intf: 1/2
       ip: 172.17.11.2/31
       remote_id: LEAF_1-2
-      leaf_id: 2
+      leaf_id: 1
       remote_intf: 1/1
       bgp_peer: 172.17.11.3
       net_type: point-2-point
