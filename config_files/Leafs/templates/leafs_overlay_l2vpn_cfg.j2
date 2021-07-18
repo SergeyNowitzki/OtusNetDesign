@@ -1,0 +1,50 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+!anycast-gateway-mac is configured in leafs_vpc_cfg.j2
+!
+feature nv overlay
+feature vn-segment-vlan-based
+feature interface-vlan
+nv overlay evpn
+!
+fabric forwarding anycast-gateway-mac {{ anycast_mac }}
+!
+{% for vlan in vlans %}
+vlan {{ vlan.vlan_id }}
+  vn-segment {{ vlan.vni }}
+  {% if vlan.svi %}
+  interface vlan {{ vlan.vlan_id }}
+    no shutdown
+    ip address {{ vlan.svi.ip }}
+    {% if vlan.svi.anycast is true %}
+    fabric forwarding mode anycast-gateway
+    {% endif %}
+  {% endif %}
+{% endfor %}
+!
+hardware access-list tcam region racl 512
+hardware access-list tcam region arp-ether 256
+!
+interface nve1
+  no shutdown
+  source-interface loopback1
+  host-reachability protocol bgp
+  {% for vlan in vlans %}
+  member vni {{ vlan.vni }}
+    ingress-replication protocol bgp
+    suppress-arp
+  {% endfor %}
+!
+evpn
+ {% for vlan in vlans %}
+ vni {{ vlan.vni }} l2
+  rd auto
+  route-target import auto
+  route-target export auto
+ {% endfor %}
+!
+router bgp 65{{dc_id}}{{row}}{{id}}
+template peer SPINE
+  address-family l2vpn evpn
+  send-community
+  send-community extended
+!

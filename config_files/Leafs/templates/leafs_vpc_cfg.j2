@@ -1,0 +1,58 @@
+feature vpc
+feature lacp
+feature nv overlay
+feature vn-segment-vlan-based
+nv overlay evpn
+!
+port-channel load-balance src-dst ip-l4port
+!
+fabric forwarding anycast-gateway-mac {{ anycast_mac }}
+!
+vrf context {{ vpc.keepalive.vrf }}
+!
+interface Ethernet {{ vpc.keepalive.intf }}
+no switchport
+vrf member {{ vpc.keepalive.vrf }}
+ip address {{ vpc.keepalive.src_ip }}/30
+no shutdown
+!
+vpc domain {{ vpc.domain }}
+role priority {{ vpc.priority }}
+peer-keepalive destination {{ vpc.keepalive.dst_ip}} source {{ vpc.keepalive.src_ip}} vrf {{ vpc.keepalive.vrf }}
+peer-switch
+peer-gateway
+auto-recovery
+ip arp synchronize
+!
+{% for intf in vpc.peerlink.interfaces %}
+interface Ethernet {{ intf }}
+ channel-group {{ vpc.peerlink.ch_group }} mode active
+ no shutdown
+{% endfor %}
+interface port-channel {{ vpc.peerlink.ch_group }}
+ no shutdown
+ switchport
+ switchport mode trunk
+ vpc peer-link
+ spanning-tree port type network
+!
+{% for member in vpc.members %}
+{% for port in member.ports %}
+interface eth {{ port }}
+channel-group {{ member.port_ch }} mode active
+{% endfor %}
+! 
+interface port-channel {{member.port_ch}}
+switchport
+switchport mode {{ member.port_mode }}
+spanning-tree port type {{ member.port_type }}
+lacp mode delay
+vpc {{ member.port_ch }}
+{% endfor %}
+!
+{% for lo in loopback %}
+{% if lo.id == 1 %}
+interface loopback {{lo.id}}
+ ip address {{ lo.sec_ip }}/32 secondary
+{%endif%}
+{% endfor %}

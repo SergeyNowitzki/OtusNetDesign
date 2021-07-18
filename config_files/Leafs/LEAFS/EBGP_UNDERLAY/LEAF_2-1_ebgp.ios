@@ -8,10 +8,10 @@ feature vpc
 feature lldp
 feature bfd
 
-username  password 
+username admin password Adm1nNX0$
 
-ip prefix-list PL_LO permit 172.17.254.0/24 ge 32
-ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 5 permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 10 permit 172.17.254.0/24 ge 32
 
 ip prefix-list PL_ANY permit 0.0.0.0/0 le 32
 

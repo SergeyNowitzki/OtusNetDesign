@@ -10,6 +10,10 @@ feature bfd
 
 username {{ user }} password {{ passwd }}
 
+errdisable recovery cause all
+errdisable detect cause all
+errdisable recovery interval 30
+
 ip prefix-list PL_LO seq 5 permit 172.17.255.0/24 ge 32
 ip prefix-list PL_LO seq 10 permit 172.17.254.0/24 ge 32
 
@@ -28,6 +32,7 @@ route-map RM_IN permit 10
 router bgp 65{{dc_id}}{{row}}{{id}}
 address-family ipv4 unicast
 maximum-paths 4
+maximum-paths ibgp 4
 redistribute direct route-map RM_LO
   template peer SPINE
     bfd

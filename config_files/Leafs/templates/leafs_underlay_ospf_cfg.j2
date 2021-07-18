@@ -11,6 +11,10 @@ feature bfd
 
 username admin password 5 $5$Z4AuMoMG$zr8QbnKL9reprlpWHPqb4Dkwiul7VvnhaIPe5gJuBk
 
+errdisable recovery cause all
+errdisable detect cause all
+errdisable recovery interval 30
+
 policy-map type network-qos jumbo
 class type network-qos class-default
 mtu 9216

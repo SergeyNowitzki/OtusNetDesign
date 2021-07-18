@@ -8,10 +8,10 @@ feature vpc
 feature lldp
 feature bfd
 
-username  password 
+username admin password Adm1nNX0$
 
-ip prefix-list PL_LO permit 172.17.254.0/24 ge 32
-ip prefix-list PL_LO permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 5 permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 10 permit 172.17.254.0/24 ge 32
 
 ip prefix-list PL_ANY permit 0.0.0.0/0 le 32
 
@@ -25,7 +25,7 @@ route-map RM_IN permit 10
   match ip address prefix-list PL_ANY
 
 
-router bgp 65112
+router bgp 65111
 address-family ipv4 unicast
 maximum-paths 4
 redistribute direct route-map RM_LO
