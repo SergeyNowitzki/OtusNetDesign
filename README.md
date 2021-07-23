@@ -333,6 +333,7 @@ As eBGP design is taken into consideration we have to pay attantion to the follo
 | `retain route-target all`       | Required for eBGP. Allows the SPINE to retain and advertise  |
 |                                 | all EVPN routes when there are no local VNI configured with  |
 |                                 | matching import route targets.                               |
+| ------------------------------- | ------------------------------------------------------------ |
 `route-map permitall permit 10`
   `  set ip next-hop unchanged`
   `address-family l2vpn evpn`
