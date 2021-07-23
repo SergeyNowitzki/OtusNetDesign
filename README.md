@@ -337,11 +337,12 @@ As eBGP design is taken into consideration we have to pay attantion to the follo
 |                                 | matching import route targets.                               |
 | ------------------------------- | ------------------------------------------------------------ |
 
-
-`route-map permitall permit 10`
-  `  set ip next-hop unchanged`
-  `address-family l2vpn evpn`
-  `  nexthop route-map permitall`
+```
+route-map permitall permit 10
+    set ip next-hop unchanged
+  address-family l2vpn evpn
+    nexthop route-map permitall
+```
 The route-map keeps the next-hop unchanged for EVPN routes. It is implemented on Spines.
 
 
