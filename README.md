@@ -332,14 +332,17 @@ The same default gateway can be simultaneously configured at any and all leaf sw
 As eBGP design is taken into consideration we have to pay attantion to the following recomendations:
 | command                         | Description                                                  |
 | ------------------------------- | ------------------------------------------------------------ |
-| `retain route-target all`       | Required for eBGP. Allows the SPINE to retain and advertise  |
-|                                 | all EVPN routes when there are no local VNI configured with  |
-|                                 | matching import route targets.                               |
-| ------------------------------- | ------------------------------------------------------------ |
+| `retain route-target all`       | Required for eBGP. Allows the SPINE to retain and advertise  
+                                    all EVPN routes when there are no local VNI configured with 
+                                    matching import route targets.                               |
+
 
 ```
 route-map permitall permit 10
-    set ip next-hop unchanged
+  set ip next-hop unchanged
+!
+router bgp 100
+  router-id 10.1.1.1
   address-family l2vpn evpn
     nexthop route-map permitall
 ```
