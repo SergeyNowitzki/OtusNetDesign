@@ -333,9 +333,7 @@ As eBGP design is taken into consideration we have to pay attantion to the follo
 | command                                 | Description                                                                           |
 | --------------------------------------- | ------------------------------------------------------------------------------------- |
 | `retain route-target all`               | Required for eBGP. Allows the SPINE to retain and advertise all EVPN routes when there are no local VNI configured with matching import route targets.|
-
-
-```
+|```
 route-map permitall permit 10
   set ip next-hop unchanged
 !
@@ -343,8 +341,8 @@ router bgp 100
   router-id 10.1.1.1
   address-family l2vpn evpn
     nexthop route-map permitall
-```
-The route-map keeps the next-hop unchanged for EVPN routes. It is implemented on Spines.
+```| The route-map keeps the next-hop unchanged for EVPN routes. It is implemented on Spines.|
+
 
 
 ###### Leaf Redundancy - VPC
