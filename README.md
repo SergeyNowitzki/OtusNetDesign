@@ -330,10 +330,14 @@ The distribution of reachability information with BGP EVPN allows the realizatio
 The same default gateway can be simultaneously configured at any and all leaf switches as needed. In this way, when a workload moves between various leaf switches, it still finds its default gateway directly attached to it. This helps with virtual machine mobility.
 
 As eBGP design is taken into consideration we have to pay attantion to the following recomendations:
+| command                         | Description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
 | `retain route-target all`       | Required for eBGP. Allows the SPINE to retain and advertise  |
 |                                 | all EVPN routes when there are no local VNI configured with  |
 |                                 | matching import route targets.                               |
-| ------------------------------- | ------------------------------------------------------------ |
+
+
+
 `route-map permitall permit 10`
   `  set ip next-hop unchanged`
   `address-family l2vpn evpn`
