@@ -10,6 +10,8 @@ route-map NH_PERMITALL permit 10
   set ip next-hop unchanged
 !
 router bgp 64602
+address-family l2vpn evpn
+  retain route-target all
 template peer LEAF
   address-family l2vpn evpn
   send-community
