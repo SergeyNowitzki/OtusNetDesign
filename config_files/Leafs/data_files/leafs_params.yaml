@@ -10,18 +10,21 @@
   vlans:
     - vlan_id: 100
       vni: 10100
+      rt: 9100
       mcast: 238.1.1.100
       svi:
         ip: 192.168.100.1/24
         anycast: true
     - vlan_id: 200
       vni: 10200
+      rt: 9200
       mcast: 238.1.1.200
       svi:
         ip: 192.168.200.1/24
         anycast: true
     - vlan_id: 250
       vni: 10250
+      rt: 9250
       mcast: 238.1.1.250
   interfaces:
     - local_intf: 1/1
@@ -79,18 +82,21 @@
   vlans:
     - vlan_id: 100
       vni: 10100
+      rt: 9100
       mcast: 238.1.1.100
       svi:
         ip: 192.168.100.1/24
         anycast: true
     - vlan_id: 200
       vni: 10200
+      rt: 9200
       mcast: 238.1.1.200
       svi:
         ip: 192.168.200.1/24
         anycast: true
     - vlan_id: 250
       vni: 10250
+      rt: 9250
       mcast: 238.1.1.250
   interfaces:
     - local_intf: 1/1
@@ -148,12 +154,14 @@
   vlans:
     - vlan_id: 100
       vni: 10100
+      rt: 9100
       mcast: 238.1.1.100
       svi:
         ip: 192.168.100.1/24
         anycast: true
     - vlan_id: 200
       vni: 10200
+      rt: 9200
       mcast: 238.1.1.200
       svi:
         ip: 192.168.200.1/24
@@ -197,12 +205,14 @@
   vlans:
     - vlan_id: 100
       vni: 10100
+      rt: 9100
       mcast: 238.1.1.100
       svi:
         ip: 192.168.100.1/24
         anycast: true
     - vlan_id: 200
       vni: 10200
+      rt: 9200
       mcast: 238.1.1.200
       svi:
         ip: 192.168.200.1/24

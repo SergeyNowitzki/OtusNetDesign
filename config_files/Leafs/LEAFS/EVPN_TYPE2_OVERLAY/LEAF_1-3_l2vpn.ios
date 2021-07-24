@@ -38,12 +38,10 @@ interface nve1
 evpn
  vni 10100 l2
   rd auto
-  route-target import auto
-  route-target export auto
+  route-target both 9100:10100
  vni 10200 l2
   rd auto
-  route-target import auto
-  route-target export auto
+  route-target both 9200:10200
 !
 router bgp 65113
 template peer SPINE

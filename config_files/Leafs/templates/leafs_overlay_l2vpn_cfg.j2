@@ -38,8 +38,7 @@ evpn
  {% for vlan in vlans %}
  vni {{ vlan.vni }} l2
   rd auto
-  route-target import auto
-  route-target export auto
+  route-target both {{ vlan.rt }}:{{ vlan.vni }}
  {% endfor %}
 !
 router bgp 65{{dc_id}}{{row}}{{id}}
