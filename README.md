@@ -372,3 +372,12 @@ It is important to know the limitations of vPC technology. Some of the key point
 **Configuration for our case**
 We need allocate the same IP address to loopback interface which is configured as source-interface for VTEP (`interface nve1`) e.g. LEAF_1-1 and LEAF_1-2 Lo1: `ip address 172.17.254.100/32 secondary`
 If a Leaf in a VPC domain `id` key has to be the same on both switches, e.g. LEAF_1-1 and LEAF_1-2 - `id: 1`. In spines_params.yaml file `leaf_id` must be the same for switches in a VPC route domain as well.
+Common `show` commands for troubleshooting:
+```
+show bgp l2vpn evpn
+show vxlan interface
+show l2route evpn mac [all | evi evi [bgp | local | static | vxlan | arp]]
+show l2route evpn mac-ip all
+show l2route evpn mac-ip all detail
+show l2route topology
+```
