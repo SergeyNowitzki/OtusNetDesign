@@ -1,0 +1,57 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+!anycast-gateway-mac is configured in leafs_vpc_cfg.j2
+!
+{% for vlan in vlans %}
+vlan {{ vlan.vlan_id }}
+  vn-segment {{ vlan.vni }}
+    {% if vlan.name %}
+    vlan name {{ vlan.name }}
+    {% endif %}
+!
+  {% if vlan.svi %}
+interface vlan {{ vlan.vlan_id }}
+    vrf member {{ vlan.svi.vrf }}
+    no shutdown
+    {% if vlan.ip %}
+    ip address {{ vlan.svi.ip }}
+    {% endif %}
+    {% if vlan.svi.ip_forward is true %}
+    ip forward
+    {% endif %}
+    {% if vlan.svi.anycast is true %}
+    fabric forwarding mode anycast-gateway
+    {% endif %}
+  {% endif %}
+!
+{% endfor %}
+!
+interface nve1
+  no shutdown
+  source-interface loopback1
+  host-reachability protocol bgp
+  {% for vlan in vlans %}
+  {% if vlan.vrf is true %}
+  member vni {{ vlan.vni }} associate-vrf
+  {% endif %}
+  {% if not vlan.vrf %}
+  member vni {{ vlan.vni }}
+    ingress-replication protocol bgp
+    suppress-arp
+  {% endif %}
+  {% endfor %}
+!
+{% for v in vrf %}
+vrf context {{ v.name }}
+  vni {{ v.vni }}
+  rd auto
+  address-family ipv4 unicast
+  {% for i in v.rt_import %}
+    route-target import {{ i }}
+    route-target import {{ i }} evpn
+  {% endfor %}
+  {% for e in v.rt_import %}
+    route-target import {{ e }}
+    route-target import {{ e }} evpn
+  {% endfor %}
+{% endfor %}
+!

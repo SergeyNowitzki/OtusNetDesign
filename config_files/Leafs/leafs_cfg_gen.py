@@ -15,6 +15,7 @@ template_ebgp = env.get_template('leafs_underlay_ebgp_cfg.j2')
 template_mcast = env.get_template('leafs_underlay_mcast_cfg.j2')
 template_vpc = env.get_template('leafs_vpc_cfg.j2')
 template_l2vpn = env.get_template('leafs_overlay_l2vpn_cfg.j2')
+template_l3vpn = env.get_template('leafs_overlay_l3vpn_cfg.j2')
 
 def ospf_config_gen(template):
     with open("data_files/leafs_params.yaml", 'r') as fr:
@@ -73,10 +74,20 @@ def l2vpn_config_gen(template):
             with open(f"LEAFS/EVPN_TYPE2_OVERLAY/{filename}",'w') as fw:
                 fw.write(template.render(leaf))
 
+def l3vpn_config_gen(template):
+    with open("data_files/leafs_params.yaml", 'r') as fr:
+        leafs = yaml.safe_load(fr)
+        for leaf in leafs:
+            filename = leaf['name']+'_l3vpn.ios'
+            print(f'Config file {filename} has been created')
+            with open(f"LEAFS/EVPN_TYPE3_OVERLAY/{filename}",'w') as fw:
+                fw.write(template.render(leaf))
+
 if __name__ == '__main__':
     #ospf_config_gen(template_ospf)
     #isis_config_gen(template_isis)
     #ebgp_config_gen(template_ebgp)
     #mcast_config_gen(template_mcast)
     #vpc_config_gen(template_vpc)
-    l2vpn_config_gen(template_l2vpn)
+    #l2vpn_config_gen(template_l2vpn)
+    l3vpn_config_gen(template_l3vpn)

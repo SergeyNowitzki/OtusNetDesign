@@ -8,6 +8,13 @@
   mcast_rp: 172.17.254.254
   anycast_mac: 0000.1111.2222
   vlans:
+    - vlan_id: 99
+      vni: 90001
+      vrf: true
+      name: L3VNI_VRF
+      svi:
+        ip_forward: true
+        vrf: TENANT_1
     - vlan_id: 100
       vni: 10100
       rt: 9100
@@ -15,6 +22,7 @@
       svi:
         ip: 192.168.100.1/24
         anycast: true
+        vrf: TENANT_1
     - vlan_id: 200
       vni: 10200
       rt: 9200
@@ -22,6 +30,7 @@
       svi:
         ip: 192.168.200.1/24
         anycast: true
+        vrf: TENANT_1
     - vlan_id: 250
       vni: 10250
       rt: 9250
@@ -69,6 +78,16 @@
         port_ch: 16
         port_mode: trunk
         port_type: normal
+  vrf:
+    - name: TENANT_1
+      vni: 90001
+      rt_import:
+        - 9100:10100
+        - 9200:10200
+      rt_export:
+        - 9100:10100
+        - 9200:10200
+
 
 - id: 1
   row: 1
@@ -80,6 +99,13 @@
   mcast_rp: 172.17.254.254
   anycast_mac: 0000.1111.2222
   vlans:
+    - vlan_id: 99
+      vni: 90001
+      vrf: true
+      name: L3VNI_VRF
+      svi:
+        ip_forward: true
+        vrf: TENANT_1
     - vlan_id: 100
       vni: 10100
       rt: 9100
@@ -87,6 +113,7 @@
       svi:
         ip: 192.168.100.1/24
         anycast: true
+        vrf: TENANT_1
     - vlan_id: 200
       vni: 10200
       rt: 9200
@@ -94,6 +121,7 @@
       svi:
         ip: 192.168.200.1/24
         anycast: true
+        vrf: TENANT_1
     - vlan_id: 250
       vni: 10250
       rt: 9250
@@ -141,6 +169,15 @@
         port_ch: 16
         port_mode: trunk
         port_type: normal
+    vrf:
+    - name: TENANT_1
+      vni: 90001
+      rt_import:
+        - 9100:10100
+        - 9200:10200
+      rt_export:
+        - 9100:10100
+        - 9200:10200
 
 - id: 3
   row: 1
@@ -152,6 +189,13 @@
   mcast_rp: 172.17.254.254
   anycast_mac: 0000.1111.2222
   vlans:
+    - vlan_id: 99
+      vni: 90001
+      vrf: true
+      name: L3VNI_VRF
+      svi:
+        ip_forward: true
+        vrf: TENANT_1
     - vlan_id: 100
       vni: 10100
       rt: 9100
@@ -159,6 +203,7 @@
       svi:
         ip: 192.168.100.1/24
         anycast: true
+        vrf: TENANT_1
     - vlan_id: 200
       vni: 10200
       rt: 9200
@@ -166,6 +211,7 @@
       svi:
         ip: 192.168.200.1/24
         anycast: true
+        vrf: TENANT_1
   interfaces:
     - local_intf: 1/1
       ip: 172.17.11.5/31
@@ -192,6 +238,15 @@
     - id: 1
       desc: VNI source Interface
       ip: 172.17.254.13
+  vrf:
+    - name: TENANT_1
+      vni: 90001
+      rt_import:
+        - 9100:10100
+        - 9200:10200
+      rt_export:
+        - 9100:10100
+        - 9200:10200
 
 - id: 4
   row: 2
@@ -203,6 +258,13 @@
   mcast_rp: 172.17.254.254
   anycast_mac: 0000.1111.2222
   vlans:
+    - vlan_id: 99
+      vni: 90001
+      vrf: true
+      name: L3VNI_VRF
+      svi:
+        ip_forward: true
+        vrf: TENANT_1
     - vlan_id: 100
       vni: 10100
       rt: 9100
@@ -210,6 +272,7 @@
       svi:
         ip: 192.168.100.1/24
         anycast: true
+        vrf: TENANT_1
     - vlan_id: 200
       vni: 10200
       rt: 9200
@@ -217,6 +280,7 @@
       svi:
         ip: 192.168.200.1/24
         anycast: true
+        vrf: TENANT_1
   interfaces:
     - local_intf: 1/1
       ip: 172.17.21.1/31
@@ -237,3 +301,12 @@
     - id: 1
       desc: VNI source Interface
       ip: 172.17.254.21
+  vrf:
+    - name: TENANT_1
+      vni: 90001
+      rt_import:
+        - 9100:10100
+        - 9200:10200
+      rt_export:
+        - 9100:10100
+        - 9200:10200

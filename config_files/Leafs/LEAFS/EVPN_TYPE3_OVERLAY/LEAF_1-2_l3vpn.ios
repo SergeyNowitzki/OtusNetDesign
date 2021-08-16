@@ -1,0 +1,49 @@
+!in addition to leafs_underlay_ebpg_cfg.j2
+!anycast-gateway-mac is configured in leafs_vpc_cfg.j2
+!
+vlan 99
+  vn-segment 90001
+    vlan name L3VNI_VRF
+!
+interface vlan 99
+    vrf member TENANT_1
+    no shutdown
+    ip forward
+!
+vlan 100
+  vn-segment 10100
+!
+interface vlan 100
+    vrf member TENANT_1
+    no shutdown
+    fabric forwarding mode anycast-gateway
+!
+vlan 200
+  vn-segment 10200
+!
+interface vlan 200
+    vrf member TENANT_1
+    no shutdown
+    fabric forwarding mode anycast-gateway
+!
+vlan 250
+  vn-segment 10250
+!
+!
+!
+interface nve1
+  no shutdown
+  source-interface loopback1
+  host-reachability protocol bgp
+  member vni 90001 associate-vrf
+  member vni 10100
+    ingress-replication protocol bgp
+    suppress-arp
+  member vni 10200
+    ingress-replication protocol bgp
+    suppress-arp
+  member vni 10250
+    ingress-replication protocol bgp
+    suppress-arp
+!
+!
