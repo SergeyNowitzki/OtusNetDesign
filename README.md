@@ -383,6 +383,14 @@ show l2route topology
 ```
 
 ###### VXLAN EVPN type-3
-VxLAN EVPN L3VNI
+In case we need routing traffic between VxLAN we have to use EVPN L3VNI (Layer 3 Multitenancy).
+VXLAN VNIs are utilized to provide Layer 2 and Layer 3 isolation across VxLAN
+- Received frames are mapped from VRF to L3VNI post Routing
+- Every VRF Context uses a dedicated VXLAN VNI
+- All routed traffic uses a individual L3VNI to identify the VRF
+
+New VNI (L3VNI) introduced per VRF context.
+Routed traffic uses transit VNI (L3VNI), while Bridged Traffic uses L2VNI.
+
 
 ###### VxLAN Multipod
