@@ -169,7 +169,7 @@
         port_ch: 16
         port_mode: trunk
         port_type: normal
-    vrf:
+  vrf:
     - name: TENANT_1
       vni: 90001
       rt_import:
