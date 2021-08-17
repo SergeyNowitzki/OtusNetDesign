@@ -5,7 +5,7 @@
 vlan {{ vlan.vlan_id }}
   vn-segment {{ vlan.vni }}
     {% if vlan.name %}
-    vlan name {{ vlan.name }}
+    vlan {{ vlan.name }}
     {% endif %}
 !
   {% if vlan.svi %}

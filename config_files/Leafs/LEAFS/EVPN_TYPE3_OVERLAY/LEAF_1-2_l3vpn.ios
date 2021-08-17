@@ -3,7 +3,7 @@
 !
 vlan 99
   vn-segment 90001
-    vlan name L3VNI_VRF
+    vlan L3VNI_VRF
 !
 interface vlan 99
     vrf member TENANT_1
@@ -46,4 +46,16 @@ interface nve1
     ingress-replication protocol bgp
     suppress-arp
 !
+vrf context TENANT_1
+  vni 90001
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9100:10100
+    route-target import 9100:10100 evpn
+    route-target import 9200:10200
+    route-target import 9200:10200 evpn
+    route-target import 9100:10100
+    route-target import 9100:10100 evpn
+    route-target import 9200:10200
+    route-target import 9200:10200 evpn
 !

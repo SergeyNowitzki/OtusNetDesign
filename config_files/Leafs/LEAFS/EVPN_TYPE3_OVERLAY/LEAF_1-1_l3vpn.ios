@@ -3,7 +3,7 @@
 !
 vlan 99
   vn-segment 90001
-    vlan name L3VNI_VRF
+    vlan L3VNI_VRF
 !
 interface vlan 99
     vrf member TENANT_1
