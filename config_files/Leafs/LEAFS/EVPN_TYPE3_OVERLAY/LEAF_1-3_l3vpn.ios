@@ -45,10 +45,18 @@ vrf context TENANT_1
   address-family ipv4 unicast
     route-target import 9100:10100
     route-target import 9100:10100 evpn
+    route-target export 9100:10100
+    route-target export 9100:10100 evpn
     route-target import 9200:10200
     route-target import 9200:10200 evpn
+    route-target export 9200:10200
+    route-target export 9200:10200 evpn
     route-target import 9100:10100
     route-target import 9100:10100 evpn
+    route-target export 9100:10100
+    route-target export 9100:10100 evpn
     route-target import 9200:10200
     route-target import 9200:10200 evpn
+    route-target export 9200:10200
+    route-target export 9200:10200 evpn
 !

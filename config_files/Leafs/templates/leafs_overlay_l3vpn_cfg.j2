@@ -48,10 +48,14 @@ vrf context {{ v.name }}
   {% for i in v.rt_import %}
     route-target import {{ i }}
     route-target import {{ i }} evpn
+    route-target export {{ i }}
+    route-target export {{ i }} evpn
   {% endfor %}
   {% for e in v.rt_import %}
     route-target import {{ e }}
     route-target import {{ e }} evpn
+    route-target export {{ e }}
+    route-target export {{ e }} evpn
   {% endfor %}
 {% endfor %}
 !
