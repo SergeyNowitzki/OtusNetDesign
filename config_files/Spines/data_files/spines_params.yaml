@@ -145,7 +145,7 @@
         - as_id: 1
           name: SPINE_1-1
           neighbor: 172.17.123.1
-        - as_id: 2
+        - as_id: 1
           name: SPINE_1-2
           neighbor: 172.17.123.2
       area: 0
