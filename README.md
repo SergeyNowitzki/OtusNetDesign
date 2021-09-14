@@ -394,6 +394,8 @@ Routed traffic uses transit VNI (L3VNI), while Bridged Traffic uses L2VNI.
 
 ###### VxLAN Multipod
 EVPN Configuration for Stretched Fabric
+![image](https://user-images.githubusercontent.com/39993377/133338614-493c5499-ff4f-4afd-8521-865eed03507a.png)
+
 
 ## Firewall in Clos Network Design
 R13 has been added to the topology as a Firewall device. It is supposed to be a policy Filter between VRFs and security zones (an access to external networks and also to Internet). Firewall usualy connected to the separate Edge leaf switch. In our case it will be LEAF_1-3. R13 is connected to the Leaf Switch with a trunk port. So we need to have all necessary VLANs associated with each Tenant.
