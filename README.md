@@ -393,3 +393,114 @@ Routed traffic uses transit VNI (L3VNI), while Bridged Traffic uses L2VNI.
 
 
 ###### VxLAN Multipod
+EVPN Configuration for Stretched Fabric
+
+## Firewall in Clos Network Design
+R13 has been added to the topology as a Firewall device. It is supposed to be a policy Filter between VRFs and security zones (an access to external networks and also to Internet). Firewall usualy connected to the separate Edge leaf switch. In our case it will be LEAF_1-3. R13 is connected to the Leaf Switch with a trunk port. So we need to have all necessary VLANs associated with each Tenant.
+
+In our case we create subinterfaces on R13 for VLANs 100 and 200 and for imitation Internet connection – Loopback 0:
+```
+interface Loopback0
+ ip address 8.8.8.8 255.255.255.255
+!
+interface Ethernet0/0
+ no ip address
+!
+interface Ethernet0/0.100
+ encapsulation dot1Q 100
+ ip address 192.168.100.254 255.255.255.0
+!
+interface Ethernet0/0.200
+ encapsulation dot1Q 200
+ ip address 192.168.200.254 255.255.255.0
+```
+To propagate default route within VRF via BGP we have to configure it in each VRF first as a static to have this Route in routing table before advertising it through BGP.
+We can also add a specific route to provide opportunity communication between VRF according to the firewall security policy.
+```
+vrf context TENANT_1
+  vni 90001
+  ip route 0.0.0.0/0 192.168.100.254
+  ip route 192.168.200.0/24 192.168.100.254
+vrf context TENANT_2
+  vni 90002
+  ip route 0.0.0.0/0 192.168.200.254
+  ip route 192.168.100.0/24 192.168.200.254
+
+```
+Advertising Default Route via BGP:
+```
+router bgp 65113
+  vrf TENANT_1
+    address-family ipv4 unicast
+      network 0.0.0.0/0
+      network 192.168.200.0/24
+      advertise l2vpn evpn
+      maximum-paths 4
+  vrf TENANT_2
+    address-family ipv4 unicast
+      network 0.0.0.0/0
+      network 192.168.100.0/24
+      advertise l2vpn evpn
+      maximum-paths 4
+
+```
+If there is a shared services in the network such as backup which has to be available from every VRF, then it is more efficient having access to its resources passing by Firewall. This behavior is called - route leaking.
+
+VLAN250 for Backup servers and this traffic shoud not be delevired via Firewall not to increase delay between storage and hosts and also exclude unnessary traffic from firewall throughput.
+So in this case VRF Backup (VLAN250) is shared between all tenants (VRF's).
+Configuration will be the same on each Leaf:
+```
+vrf context BACKUP_VRF
+  vni 99999
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9100:10200
+    route-target import 9100:10200 evpn
+    route-target import 9200:10200
+    route-target import 9200:10200 evpn
+    route-target import 9250:10250
+    route-target import 9250:10250 evpn
+    route-target export 9100:10200
+    route-target export 9100:10200 evpn
+    route-target export 9200:10200
+    route-target export 9200:10200 evpn
+    route-target export 9250:10250
+    route-target export 9250:10250 evpn
+vrf context TENANT_1
+  vni 90001
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9100:10100
+    route-target import 9100:10100 evpn
+    route-target import 9250:10250
+    route-target import 9250:10250 evpn
+    route-target export 9100:10100
+    route-target export 9100:10100 evpn
+    route-target export 9250:10250
+    route-target export 9250:10250 evpn
+vrf context TENANT_2
+  vni 90002
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9200:10200
+    route-target import 9200:10200 evpn
+    route-target import 9250:10250
+    route-target import 9250:10250 evpn
+    route-target export 9200:10200
+    route-target export 9200:10200 evpn
+    route-target export 9250:10250
+    route-target export 9250:10250 evpn
+
+router bgp 65XXX
+    vrf BACKUP_VRF
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      maximum-paths 4
+  vrf TENANT_1
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+  vrf TENANT_2
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      maximum-paths 4
+```
