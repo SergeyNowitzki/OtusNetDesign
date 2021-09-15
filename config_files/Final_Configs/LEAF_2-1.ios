@@ -1,0 +1,244 @@
+nv overlay evpn
+feature bgp
+feature interface-vlan
+feature vn-segment-vlan-based
+feature lacp
+feature vpc
+feature lldp
+feature bfd
+feature nv overlay
+
+no password strength-check
+username admin password 5 $5$Lk1q2lmD$1KQceg611azwE83fJcbEuLYvKrDO0wevVKj4k127G/
+C  role network-admin
+username password password 5 !  role network-operator
+ip domain-lookup
+copp profile strict
+snmp-server user admin network-admin auth md5 0xacadda5439d4506dfc0508674d41a7ff
+ priv 0xacadda5439d4506dfc0508674d41a7ff localizedkey
+snmp-server user password network-operator
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+fabric forwarding anycast-gateway-mac 0000.1111.2222
+vlan 1,100-102,199-200,250
+vlan 100
+  name VLAN100_TENANT_1
+  vn-segment 10100
+vlan 101
+  name TENANT_1
+  vn-segment 90001
+vlan 102
+  name TENANT_2
+  vn-segment 90002
+vlan 199
+  name BACKUP_VRF_VLAN
+  vn-segment 99999
+vlan 200
+  name VLAN200_TENANT_2
+  vn-segment 10200
+vlan 250
+  name BACKUP_SERVICE_VLAN250
+  vn-segment 10250
+
+ip prefix-list PL_ANY seq 5 permit 0.0.0.0/0 le 32
+ip prefix-list PL_LO seq 5 permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 10 permit 172.17.254.0/24 ge 32
+route-map RM_IN permit 10
+  match ip address prefix-list PL_ANY
+route-map RM_LO permit 10
+  match ip address prefix-list PL_LO
+route-map RM_OUT permit 10
+  match ip address prefix-list PL_ANY
+vrf context BACKUP_VRF
+  vni 99999
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9100:10200
+    route-target import 9100:10200 evpn
+    route-target import 9200:10200
+    route-target import 9200:10200 evpn
+    route-target import 9250:10250
+    route-target import 9250:10250 evpn
+    route-target export 9100:10200
+    route-target export 9100:10200 evpn
+    route-target export 9200:10200
+    route-target export 9200:10200 evpn
+    route-target export 9250:10250
+    route-target export 9250:10250 evpn
+vrf context TENANT_1
+  vni 90001
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9100:10100
+    route-target import 9100:10100 evpn
+    route-target export 9100:10100
+    route-target export 9100:10100 evpn
+vrf context TENANT_2
+  vni 90002
+  rd auto
+  address-family ipv4 unicast
+    route-target import 9200:10200
+    route-target import 9200:10200 evpn
+    route-target export 9200:10200
+    route-target export 9200:10200 evpn
+vrf context management
+hardware access-list tcam region racl 512
+hardware access-list tcam region arp-ether 256
+
+
+interface Vlan1
+
+interface Vlan100
+  no shutdown
+  vrf member TENANT_1
+  no ip redirects
+  ip address 192.168.100.1/24
+  no ipv6 redirects
+  fabric forwarding mode anycast-gateway
+
+interface Vlan101
+  no shutdown
+  vrf member TENANT_1
+  ip forward
+
+interface Vlan102
+  no shutdown
+  vrf member TENANT_2
+  ip forward
+
+interface Vlan199
+  no shutdown
+  vrf member BACKUP_VRF
+  ip forward
+
+interface Vlan200
+  no shutdown
+  vrf member TENANT_2
+  no ip redirects
+  ip address 192.168.200.1/24
+  no ipv6 redirects
+  fabric forwarding mode anycast-gateway
+
+interface Vlan250
+  no shutdown
+  vrf member BACKUP_VRF
+  no ip redirects
+  ip address 192.168.250.1/24
+  no ipv6 redirects
+  fabric forwarding mode anycast-gateway
+
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback1
+  member vni 10100
+    suppress-arp
+    ingress-replication protocol bgp
+  member vni 10200
+    suppress-arp
+    ingress-replication protocol bgp
+  member vni 10250
+    suppress-arp
+    ingress-replication protocol bgp
+  member vni 90001 associate-vrf
+  member vni 90002 associate-vrf
+  member vni 99999 associate-vrf
+
+interface Ethernet1/1
+  description *** UPLINK_SPINE_2-1_ETH_1/1 ***
+  no switchport
+  no ip redirects
+  ip address 172.17.21.1/31
+  no ipv6 redirects
+  ip igmp version 3
+  no shutdown
+
+interface Ethernet1/2
+  switchport access vlan 250
+
+interface Ethernet1/3
+
+interface Ethernet1/4
+
+interface Ethernet1/5
+
+interface Ethernet1/6
+  description ** Access Edge Port **
+  switchport access vlan 100
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+
+interface Ethernet1/7
+
+interface Ethernet1/8
+  description ** Access Edge Port **
+  switchport access vlan 200
+  spanning-tree port type edge
+  spanning-tree bpduguard enable
+
+
+interface mgmt0
+  vrf member management
+
+interface loopback0
+  description ** source for routing protocols **
+  ip address 172.17.255.21/32
+
+interface loopback1
+  description ** VNI source Interface **
+  ip address 172.17.254.21/32
+line console
+  exec-timeout 0
+line vty
+no feature signature-verification
+router bgp 65124
+  address-family ipv4 unicast
+    redistribute direct route-map RM_LO
+    maximum-paths 4
+  template peer SPINE
+    bfd
+    password 3 a667d47acc18ea6b
+    timers 3 9
+    address-family ipv4 unicast
+      send-community
+      send-community extended
+      route-map RM_IN in
+      route-map RM_OUT out
+      soft-reconfiguration inbound
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 172.17.21.0
+    inherit peer SPINE
+    remote-as 64602
+    description PEERING_SPINE_2-1
+    ebgp-multihop 4
+  vrf BACKUP_VRF
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      maximum-paths 4
+  vrf TENANT_1
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      maximum-paths 4
+  vrf TENANT_2
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      maximum-paths 4
+evpn
+  vni 10100 l2
+    rd auto
+    route-target import 9100:10100
+    route-target export 9100:10100
+  vni 10200 l2
+    rd auto
+    route-target import 9200:10200
+    route-target export 9200:10200
+  vni 10250 l2
+    rd auto
+    route-target import 9250:10250
+    route-target export 9250:10250

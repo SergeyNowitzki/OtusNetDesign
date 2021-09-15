@@ -1,0 +1,15 @@
+!
+interface Loopback0
+ ip address 8.8.8.8 255.255.255.255
+!
+interface Ethernet0/0
+ no ip address
+!
+interface Ethernet0/0.100
+ encapsulation dot1Q 100
+ ip address 192.168.100.254 255.255.255.0
+!
+interface Ethernet0/0.200
+ encapsulation dot1Q 200
+ ip address 192.168.200.254 255.255.255.0
+!

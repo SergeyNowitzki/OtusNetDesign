@@ -506,3 +506,25 @@ router bgp 65XXX
       advertise l2vpn evpn
       maximum-paths 4
 ```
+To control importing network we can use a Route Map, e.g:
+```
+to control importing traffic we can use route-map:
+!
+ip prefix-list PL_DENY_EXPORT seq 5 permit 0.0.0.0/0
+!
+route-map RM_DENY_IMPORT deny 10
+ match ip address prefix-list PL_DENY_EXPORT
+route-map RM_DENY_IMPORT permit 20
+!
+vrf context Blue
+  vni 51010
+  ip route 0.0.0.0/0 Null0
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+    route-target both 99:99
+    route-target both 99:99 evpn
+    import map RM_DENY_IMPORT
+!
+```

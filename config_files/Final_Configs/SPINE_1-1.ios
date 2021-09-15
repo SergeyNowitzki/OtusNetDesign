@@ -1,0 +1,177 @@
+nv overlay evpn
+feature bgp
+feature isis
+feature interface-vlan
+feature vn-segment-vlan-based
+feature lacp
+feature vpc
+feature lldp
+feature bfd
+feature nv overlay
+
+username admin password 5 $5$eJ8g30Qg$Sz9Nd29F9ASK9izYEeXR4D3j0WCrE61198q6lcsCPK
+/  role network-admin
+ip domain-lookup
+system qos
+  service-policy type network-qos jumbo
+copp profile strict
+bfd echo-interface loopback0
+bfd startup-timer 20
+snmp-server user admin network-admin auth md5 0x740640456ee6658578a3565ac2ab4733
+ priv 0x740640456ee6658578a3565ac2ab4733 localizedkey
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1
+
+ip prefix-list PL_ANY seq 5 permit 0.0.0.0/0 le 32
+ip prefix-list PL_LO seq 5 permit 172.17.255.0/24 ge 32
+ip prefix-list PL_LO seq 10 permit 172.17.254.0/24 ge 32
+route-map NH_PERMITALL permit 10
+  set ip next-hop unchanged
+route-map RM_IN permit 10
+  match ip address prefix-list PL_ANY
+route-map RM_LO permit 10
+  match ip address prefix-list PL_LO
+route-map RM_OUT permit 10
+  match ip address prefix-list PL_ANY
+key chain ISIS_KEY
+  key 1
+    key-string 7 072015797d253827
+vrf context management
+
+
+interface Vlan1
+
+interface Ethernet1/1
+  description *** DOWNLINK_LEAF_1-1_ETH_1/1 ***
+  no switchport
+  medium p2p
+  no ip redirects
+  ip address 172.17.11.0/31
+  no ipv6 redirects
+  ip igmp version 3
+  no shutdown
+
+interface Ethernet1/2
+  description *** DOWNLINK_LEAF_1-2_ETH_1/1 ***
+  no switchport
+  medium p2p
+  no ip redirects
+  ip address 172.17.11.2/31
+  no ipv6 redirects
+  ip igmp version 3
+  no shutdown
+
+interface Ethernet1/3
+  description *** DOWNLINK_LEAF_1-3_ETH_1/1 ***
+  no switchport
+  medium p2p
+  bfd interval 50 min_rx 50 multiplier 3
+  bfd authentication Keyed-SHA1 key-id 1 hex-key 636973636F313233
+  no bfd
+  no ip redirects
+  ip address 172.17.11.4/31
+  no ipv6 redirects
+  isis network point-to-point
+  isis circuit-type level-2
+  isis authentication-type md5
+  isis authentication key-chain ISIS_KEY
+  no isis passive-interface level-2
+  ip igmp version 3
+  no shutdown
+
+interface Ethernet1/4
+
+interface Ethernet1/5
+
+interface Ethernet1/6
+
+interface Ethernet1/7
+  description *** DOWNLINK_R_1-1_ETH_0/1 ***
+  no switchport
+  no ip redirects
+  ip address 172.17.123.1/24
+  no ipv6 redirects
+  ip igmp version 3
+  no shutdown
+interface mgmt0
+  vrf member management
+
+interface loopback0
+  description ** source for routing protocols **
+  ip address 172.17.255.111/32
+
+interface loopback1
+  description ** VNI source Interface **
+  ip address 172.17.254.111/32
+
+interface loopback254
+  description ** Unique Address for Anycast-RP **
+  ip address 172.17.254.254/32
+line console
+  exec-timeout 0
+line vty
+no feature signature-verification
+router bgp 64601
+  address-family ipv4 unicast
+    redistribute direct route-map RM_LO
+    maximum-paths 4
+  address-family l2vpn evpn
+    retain route-target all
+  template peer LEAF
+    bfd
+    password 3 a667d47acc18ea6b
+    timers 3 9
+    address-family ipv4 unicast
+      send-community
+      send-community extended
+      route-map RM_IN in
+      route-map RM_OUT out
+      soft-reconfiguration inbound
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map NH_PERMITALL out
+  template peer SPINE
+    bfd
+    password 3 a667d47acc18ea6b
+    update-source Ethernet1/7
+    timers 3 9
+    address-family ipv4 unicast
+      send-community
+      send-community extended
+      route-map RM_IN in
+      route-map RM_OUT out
+      soft-reconfiguration inbound
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map NH_PERMITALL out
+  neighbor 172.17.11.1
+    inherit peer LEAF
+    remote-as 65111
+    description PEERING_LEAF_1-1
+    ebgp-multihop 4
+  neighbor 172.17.11.3
+    inherit peer LEAF
+    remote-as 65111
+    description PEERING_LEAF_1-2
+    ebgp-multihop 4
+  neighbor 172.17.11.5
+    inherit peer LEAF
+    remote-as 65113
+    description PEERING_LEAF_1-3
+    ebgp-multihop 4
+  neighbor 172.17.123.2
+    inherit peer SPINE
+    remote-as 64601
+    description PEERING_SPINE_1-2
+  neighbor 172.17.123.3
+    inherit peer SPINE
+    remote-as 64602
+    description PEERING_SPINE_2-1
+    ebgp-multihop 4
